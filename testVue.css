@@ -1,0 +1,713 @@
+
+.bili-wrapper{
+    width:1160px;
+    margin:0 auto;
+}
+
+ul{
+    padding:0;
+}
+a{
+    text-decoration: none;
+}
+#titles{
+    position: relative;
+    height:59px;
+    z-index:2;
+}
+.horizontal-list{
+    display:inline-block;
+    position:relative;
+    width:40px;
+    list-style: none;
+    margin-right: 18px;
+}
+.horizontal-list:hover .vertical-list-container{
+    display:block;
+}
+.horizontal-name{
+  position: relative;
+  width:100%;
+  font-size: 12px;
+  text-align: center;
+  background-color: white;
+  text-decoration: none;
+  display: block;
+  padding:0;
+  margin:0;
+}
+.horizontal-number{
+    position: absolute;
+    height:14px;
+    width:100%;
+    top:8px;
+    line-height: 14px;
+    text-align: center;
+    color:black;
+    margin:0;
+}
+.num{
+    
+    color:#fff;
+    background-color: #ffafc9;
+    border-radius: 3px;
+    height:12px;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+.name{
+    width:100%;
+    height:40px;
+    font-size:12px;
+    line-height: 50px;
+    text-align: center;
+    color:black;
+    vertical-align: bottom;
+    margin:0;
+    padding-top:8px;
+}
+.vertical-list-container{
+ position:absolute;
+ top:40px;
+ left:-10px;
+ list-style: none;
+ background-color:white;
+ display: none;
+ border-radius: 6px;
+ z-index:10;
+}
+
+.horizontal-list-container{
+ position:relative;
+ list-style: none;
+ margin:0;
+}
+.vertical-list{
+    box-sizing: content-box;
+    position:relative;
+    display:block;
+    padding:2px;
+    min-width:120px;
+    line-height: 20px;
+    font-size: 12px;
+    overflow:hidden;
+    padding:0;
+    margin:0;
+}
+.vertical-list:hover{
+    background-color: #e5e9ef;
+}
+.iconBefore{
+    position:absolute;
+    display:inline-block;
+    width:18px;
+    height:20px;
+    left:-10px;
+    top:8px;
+    background: url("icons2.png") 0 -1621px no-repeat;
+    
+}
+.link-style{
+    position:relative;
+    left:25px;
+    display: inline-block;
+    text-decoration: none;
+    color:black;
+    padding: 5px 60px 5px 2px;
+    white-space: nowrap;
+}
+.link-style,.iconBefore{
+    transition:all 0.4s ease;
+}
+.iconAfter{
+    position: absolute;
+    display: inline-block; 
+    width:18px;
+    height:20px;
+    right:35px;
+    top:5px;
+    background: url("icons2.png") 0 -1581px no-repeat;
+}
+.move-right{
+    transform:translateX(10px);
+}
+.fade-enter-active{
+    transition:all .3s cubic-bezier(1.0,0.5,0.8,1.0);
+ }
+ .fade-leave-active{
+    transition:all .3s ease;
+ }
+ .fade-enter, .fade-leave-to{
+   transform:translateX(20px);  
+   opacity:0;
+ }
+ .side-link{
+     position:relative;
+     display: inline-block;
+     overflow: hidden;
+ }
+ .s-column{
+    position:relative;
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 3px auto 2px;
+    background: url("backgroundIcon.png") -87px -1814px no-repeat;
+ }
+ .side-link, .square, .live,.classroom span{
+    margin:0;
+    font-size:12px;
+    color:black;
+    display:block;
+    text-align: center;
+ }
+ .side-link:hover span{
+     color:#00a1d6;
+ }
+ .square{
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 3px auto 2px;
+    background: url("backgroundIcon.png") -87px -2006px no-repeat;
+ }
+ .live{
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 3px auto 2px;
+    background: url("backgroundIcon.png") -87px -1878px no-repeat;
+ }
+ .blackroom{
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 3px auto 2px;
+    background: url("backgroundIcon.png") -87px -1942px no-repeat;
+ }
+ .nav-gif{
+     position: absolute;
+     right:0;
+     top:0;
+     height: 50px;
+
+ }
+ .gif-container{
+     width:69px;
+     height:40px;
+     display: inline-block;
+ }
+ .gif-container img{
+     width:100%;
+     height:100%;
+ }
+/*=====以上是横版list的css*/
+/*=========这个是广场下面的css*/
+.side-nav{
+    padding: 2px 0px;
+}
+.horizontal-list:hover .square-content{
+    display:block;
+}
+.square-content{
+ position:absolute;
+ left:0;
+ top:40px;
+ left:-10px;
+ display:none;
+ width:387px;
+ height:188px;
+ background-color:lightgrey;
+ border-radius: 6px;
+ padding: 20px 0 20px 0;
+ z-index:10;
+}
+.left-square{
+    width:107px;
+    list-style:none;
+    position:absolute;
+    margin:0;
+    padding:0;
+    border-right: 1px solid grey;
+    left:0;
+}
+.left-square-item{
+    position: relative;
+    width:100%;
+    text-align: left;
+    line-height: 12px;
+    font-size: 12px;
+    overflow: hidden;
+    height:auto;
+}
+.left-square-link{
+    text-decoration: none;
+    color:black;
+    display: inline-block;
+    position:relative;
+    width:100%;
+    transition: all 0.2s ease;
+    padding: 5px 0 5px 10px;
+}
+
+.left-icon{
+    width: 16px;
+    height: 13px;
+    margin-right: 4px;
+    margin-top: 4px;
+    vertical-align: top;
+    display: inline-block;
+    background-image: url("backgroundIcon.png");
+    vertical-align: text-bottom;
+}
+.icon-vip,.icon-activity{
+    background-position: -280px -1179px;
+}
+.icon-game{
+    background-position: -279px -1241px;
+}
+
+.icon-news{
+    background-position: -344px -1178px;
+}
+.icon-painter{
+    background-position: -280px -1370px;
+}
+.icon-tv{
+    background-position: -280px -1433px;
+}
+
+.left-square-item:hover {
+ background-color: #e5e9ef;
+}
+.left-square-item:hover:hover .left-square-link{
+ transform: translateX(10px);
+}
+
+.right-square{
+    position:absolute;
+    width:240px;
+    height:188px;
+    padding:0 20px 0 19px;
+    border-left: 1px solid #e5e9ef;
+    display: inline-block;
+    right:0;
+
+}
+.right-square-item{
+    margin: 5px 0;
+}
+.right-square-item img{
+  width:240px;
+  height:84px;
+  border-radius: 4px;
+  display:block;
+}
+.lazy-img{
+    
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
+/*直播css*/
+.horizontal-list:hover .live-panel{
+    display:block;
+}
+.live-panel{
+    width:350px;
+    display:block;
+    position:absolute;
+    top:40px;
+    overflow:hidden;
+    left:-10px;
+    display:none;
+    background-color: lightgrey;
+    padding:20px 0 10px 0;
+    border-radius: 6px;
+}
+.live-panel-left{
+    position:relative;
+    list-style: none;
+    border-right:1px solid #e5e9ef;
+    width:100px;
+}
+.live-panel-leftitem{
+    display:block;
+    position: relative;
+    overflow:hidden;
+    font-size: 12px;
+    line-height: 20px;
+}
+.live-panel-leftitem:hover{
+    background-color: #e5e9ef;
+}
+.live-panel-leftitem:hover .live-panel-leftlink{
+ transform:translateX(10px);
+}
+.live-panel-leftlink{
+    position:relative;
+    padding:5px 20px 5px 5px;
+    white-space: nowrap;
+    text-decoration: none;
+    color:black;
+    display:inline-block;
+    left:20px;
+    transition:all 0.3s ease;
+}
+.live-panel-leftlink span{
+    display: inline-block;
+}
+
+.leftArrow{
+    position:absolute;
+    display:inline-block;
+    width:18px;
+    height:20px;
+    left:-6px;
+    top:8px;
+    background: url("icons2.png") 0 -1621px no-repeat;
+}
+
+.rightArrow{
+    position: absolute;
+    display: inline-block; 
+    width:18px;
+    height:20px;
+    right:-100px;
+    top:5px;
+    background: url("icons2.png") 0 -1581px no-repeat;
+    transition:all 0.3s ease;
+}
+.live-panel-leftitem:hover .rightArrow{
+    right:-2px;
+}
+.live-panel-right{
+    position:absolute;
+    right:20px;
+    top:20px;
+    width:210px;
+    height:250px;
+   
+}
+.picvideo{
+    position:relative;
+    display:inline-block;
+    width:100%;
+    height:100px;
+    text-decoration: none;
+}
+.picvideo img{
+    width:100%;
+    height:100px;
+    margin: 15px 0 15px 0;
+} 
+/*slide CSS*/
+
+#slide{
+    position:relative;
+    height:220px;
+    padding-bottom:50px;
+}
+.slide-container{
+    float:left;
+    position:relative;
+    width:440px;
+    height:220px;
+    overflow:hidden;
+    border-radius: 6px;
+    margin:0;
+    left:0;
+    top:0;
+}
+.original-location{
+    position:absolute;
+    left:0;
+    top:0;
+    width:440px;
+    height:220px;
+    display:block;
+    text-decoration: none;
+}
+.original-location{
+    width:100%;
+    height:100%;
+}
+
+.imgslide-fade-enter-active {
+    transition: all .3s ease;
+  }
+.imgslide-fade-leave-active {
+    transition: all .3s ease;
+  }
+.imgslide-fade-enter 
+  /* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateX(440px);
+    opacity: 0;
+  }
+  .imgslide-fade-leave-to{
+    transform: translateX(-440px);
+    opacity: 0;
+  }
+  .imgslide-fade-right-enter-active {
+    transition: all .3s ease;
+  }
+.imgslide-fade-right-leave-active {
+    transition: all .3s ease;
+  }
+.imgslide-fade-right-enter 
+  /* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateX(-440px);
+    opacity: 0;
+  }
+  .imgslide-fade-right-leave-to{
+    transform: translateX(440px);
+    opacity: 0;
+  }
+
+  .slide-title{
+      position:absolute;
+      width:100%;
+      height:35px;
+      bottom:0;
+      left:0;
+      z-index:2;
+  }
+  .slide-trigger{
+      position:absolute;
+      right:20px;
+      bottom:8px;
+      list-style: none;
+      z-index:3;
+      margin:0;
+      padding:0;
+      z-index:3;
+  }
+  .slide-trigger-item{
+      position:relative;
+      display:inline-block;
+      width: 18px;
+      height: 18px;
+      margin-left:8px;
+      border-radius: 18px;
+      background-color:lightgrey;
+  }
+  .slide-trigger-item:hover{
+      cursor:pointer;
+      width:18px;
+      height:18px;
+      background-position: -919px -790px;
+      background-color: transparent;
+      background-image:url("backgroundIcon.png");
+  }
+  .eat-pic{
+    position:relative;
+    display:inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left:8px;
+    background-image:url("backgroundIcon.png");
+    background-position: -855px -727px;
+
+  }
+  .slide-title-link{
+      text-decoration: none;
+      color:white;
+      height:35px;
+      line-height: 35px;
+      font-size: 15px;
+      padding:0 6px 0 6px;
+      background-color: black;
+      opacity:0.8;
+  }
+  .slide-more-info{
+      position: absolute;
+      right: 15px;
+      bottom: 35px;
+      display:inline-block;
+      background-color: black;
+      opacity: 0.7;
+      color:white;
+      text-decoration: none;
+      width: 50px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 4px;
+      font-size:12px;
+      display:none;
+      transition:all 0.2s ease;
+      transition-delay: 1s;
+  }
+  .slide-more-info::after{
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 12px;
+        margin: -2px 0 0 5px;
+        vertical-align: middle;
+        background: url("backgroundIcon.png") -541px -218px;
+  }
+  .slide-container:hover .slide-more-info{
+    display:block;
+  }
+/*在轮播图右侧的那个东西*/
+.recommend-panel{
+ position:relative;
+ height:220px;
+ overflow: hidden;
+ /*如果加了float:left;那么recommend-card太多，就会让recommend panel跑到下一行
+ 而不是多余的recommend-card被隐藏*/
+}
+.recommend-card{
+    width: 160px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #fff;
+    margin:0 0 20px 20px;
+    float:left;
+}
+.clearfix{
+zoom:1;
+}
+.clearfix:after,.clearfix:before{
+    content:"";
+    display:table;
+}
+.clearfix:after{
+clear:both;
+overflow: hidden;
+}
+.img-card{
+ width:160px;
+ height:100px;
+}
+.card-mark{
+    position: absolute;
+    left: 0;
+    top: 68px;
+    width: 150px;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    padding: 10px 5px;
+    overflow: hidden;
+    background: linear-gradient(transparent,rgba(0,0,0,.1) 20%,rgba(0,0,0,.2) 35%,rgba(0,0,0,.6) 65%,rgba(0,0,0,.9));
+}
+.title,.author,.viewcount{
+    padding:0;
+    margin:0;
+}
+.title{
+ color:white;
+ width:100%;
+ height:40px;
+ overflow:hidden;
+ margin-bottom:5px;
+ word-break:break-all;
+ word-wrap:break-word;
+}
+.author,.viewcount{
+    opacity: 0;
+    color: #99a2aa;
+    height: 20px;
+    line-height: 20px;
+    width:100%;
+    overflow: hidden;
+    transition:all .6s ease;
+}
+.recommend-card:hover .card-mark{
+    top:0;
+    height:100%;
+    background: rgba(0,0,0,.7);
+}
+.recommend-card:hover .author, .recommend-card:hover .viewcount{
+opacity:1;
+}
+.later-watch{
+    display: none;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    right: 6px;
+    bottom: 4px;
+    cursor: pointer;
+    background-image: url("clock.gif");
+}
+.recommend-card:hover .later-watch{
+    display:block;
+}
+.watch-tip{
+    position:absolute;
+    top:-34px;
+    left:-22px;
+    font-size: 12px;
+    height:22px;
+    line-height: 22px;
+    width:50px;
+    border-radius: 2px;
+    background-color: black;
+    color:white;
+    opacity:0.7;
+    display:none;
+    text-align:center;
+}
+.later-watch:hover .watch-tip{
+    display:block;
+}
+.review-btn{
+    opacity: 0;
+    position: absolute;
+    background-color: rgba(0,0,0,.6);
+    background-image: url("icons2.png");
+    background-repeat: no-repeat;
+    width: 20px;
+    top: 50%;
+    margin-top: -8px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+.review-btn.pre{
+    left: 20px;
+    border-radius: 0 4px 4px 0;
+    padding: 13px 5px 13px 10px;
+    background-position: 6px -1211px;
+}
+.review-btn.next{
+    right: 0;
+    border-radius: 4px 0 0 4px;
+    padding: 13px 10px 13px 5px;
+    background-position: 25px -1262px;
+}
+.recommend-panel:hover .review-btn{
+    opacity:1;
+}
+
+
+
+@media screen and (max-width: 1400px){
+    .bili-wrapper{
+        width:980px;
+    }
+    .horizontal-list{
+        margin-right:9px;
+    }
+}
+
+
+/*test if git will get this */
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,597 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <meta charset="utf-8"/>
+    <title>Test VUE Component</title>    
+    <link rel="stylesheet" type="text/css" href="testVue.css" />
+    <script src="vue.js" ></script>
+    <script>
+//子组件的onmouseover onmouseout如果不阻止冒泡，那么对于父组件的onmouseover  onmouseout有啥影响。比如在很多子组件中触发了很多次的onmouseout，但是鼠标在这个过程中一直在父组件的内容里面，那么onmouseout的这个事件会被接收到么？
+    Vue.component('nested-list',{
+        template:'\
+        <li class="horizontal-list"  > \
+            <a class="horizontal-name" :href="list.homelink">\
+            <p class="horizontal-number"> <span class="num">{{list.number>999?"999+":list.number}}</span></p>\
+            <p class="name" >{{list.name}}</p>\
+           </a>\
+            <ul class="vertical-list-container"  >\
+                <li v-for="(item,index) in list.content" class="vertical-list" v-on:mouseover="showMove(location,index)" \
+                v-on:mouseout="backToInitial(location,index)" > \
+                <a class="link-style"  :class="list.tclass[index]" :href="list.link[index]" >\
+                <div class="iconBefore"> </div>\
+                <span>{{item}} \
+                <transition name="fade"> \
+                 <div class="iconAfter" v-show="list.show[index]"></div>\
+                </transition>\
+                </span>\
+                </a>\
+                </li> \
+            </ul>\
+        </li>',
+        props:['list','location','show','show2'],
+        methods:{
+           showList(location){
+             console.log("locations is "+location);
+             this.$emit('showlist',location);
+           },
+           hideList(location){
+            console.log("locations is "+location);
+             this.$emit('hidelist',location);
+           },
+           showListTwo(location){
+            console.log("ul on mouse over");
+            this.$emit('showlist2',location);
+           },
+           hideListTwo(location){
+            console.log("ul on mouse out");
+            this.$emit('hidelist2',location);
+           },
+           showMove:function(loc,secondloc){
+            console.log(" move loc and secloc are"+loc+" "+secondloc);
+            this.$emit('move',loc,secondloc);
+           },
+           backToInitial:function(loc,secondloc){
+            console.log(" back loc and secloc are"+loc+" "+secondloc);
+            this.$emit('back',loc,secondloc);
+           }
+         
+        }
+    })
+    Vue.component('my-slide',{
+        template:'\
+         <transition v-bind:name="tname" mode="out-in">\
+         <a :href="link" v-show="show" class="original-location"> \
+            <img :src="hehe" />\
+            </a>       \
+        </transition>                                       \
+        ',
+        props:['show','hehe','link','tname']
+    });
+
+    Vue.component('recommend-card',{
+        template:'\
+         <div class="recommend-card">\
+            <a :href="link" :title="title" target="_blank" >\
+              <img :src="imgsrc" class="img-card" />\
+              <div class="card-mark">\
+                <p class="title">{{title}}</p>\
+                <p class="author">{{author}}</p>\
+                <p class="viewcount">{{count}}</p>\
+             </div>  \
+            </a> \
+            <div class="later-watch" >\
+                <p class="watch-tip">稍后再看\
+                </p>\
+            </div>\
+        </div>\
+        ',
+        props:['link','title','imgsrc','author','count']
+    });
+
+    //<a href="//www.bilibili.com/v/douga/" class="nav-link"><div class="num-wrap"><span class="num">237</span></div><div class="nav-name">动画</div></a>
+    var list={
+    number:362,
+    homelink:"//www.bilibili.com/v/douga/",
+    totalshow:false,
+    name:'动画',
+    content:['MAD-AMV','MMD·3D','短片·手书·配音','综合'],
+    link:['douga/mad/','douga/mmd/','douga/voice/','douga/other/'],
+    tclass:[],
+    show:[],
+};
+var list2={
+    number:100,
+    totalshow:false,
+    name:'电影',
+    content:['11','44','55','66','77'],
+    link:['aaa','bbb','eee','fff','ggg'],
+    tclass:[],
+    show:[],
+};
+//<a href="//bangumi.bilibili.com/22/" class="nav-link"><div class="num-wrap"><span class="num">29</span></div><div class="nav-name">番剧</div></a>
+var list3={
+    number:30,
+    homelink:"//bangumi.bilibili.com/22/",
+    totalshow:false,
+    name:'番剧',
+    content:['连载动画','完结动画','资讯','官方延伸','新番时间表','番剧索引'],
+    link:['anime/serial/','anime/finish/','anime/information/','anime/official/','anime/timeline','anime/index/'],
+    tclass:[],
+    show:[],
+}
+//<a href="//bangumi.bilibili.com/guochuang/" class="nav-link"><div class="num-wrap"><span class="num">15</span></div><div class="nav-name">国创</div></a>
+var list4={
+    number:1111, 
+    homelink:'//bangumi.bilibili.com/guochuang/',
+    totalshow:false,
+    name:'电影',
+    content:['国产动画','国产原创相关','布袋戏','咨询','新番时间表','国产动画索引'],
+    link:['guochuang/chinese','guochuang/original/','guochuang/puppetry/','guochuang/information/','guochuang/timeline','guochuang/index/'],
+    tclass:[],
+    show:[],
+}
+//<a href="//www.bilibili.com/v/music/" class="nav-link"><div class="num-wrap"><span class="num">391</span></div><div class="nav-name">音乐</div></a>
+var list5 = {
+    number:222,
+    totalshow:false,
+    name:'音乐',
+    content:['原创音乐','翻唱','VOCALOID·UTAU','演奏','三次元音乐','OP/ED/OST','音乐选集'],
+    link:['music/original/','music/cover/','music/vocaloid/','music/perform/','music/corrdinate/','music/oped/','music/collection/'],
+    tclass:[],
+    show:[],
+}
+//<a href="//www.bilibili.com/v/dance/" class="nav-link"><div class="num-wrap"><span class="num">51</span></div><div class="nav-name">舞蹈</div></a>
+var list6 = {
+    number:333,
+    homelink:'//www.bilibili.com/v/dance/',
+    totalshow:false,
+    name:'舞蹈',
+    content:['宅舞','三次元舞蹈','舞蹈教程'],
+    link:['dance/otaku/','dance/three_d/','dance/demo/'],
+    tclass:[],
+    show:[],
+}
+//<a href="//www.bilibili.com/v/game/" class="nav-link"><div class="num-wrap"><span class="num">999+</span></div><div class="nav-name">游戏</div></a>
+var list7 = {
+    number:14,
+  homelink:"//www.bilibili.com/v/game/",
+  totalshow:false,
+  name:'游戏',
+  content:['单机游戏','电子竞技','手机游戏','网络游戏','桌游棋牌','GMV','音游','Mugen'],
+  link:['game/stand_alone/','game/esports/','game/mobile/','game/online/','game/board/','game/gmv/','game/music/','game/mugen/'],
+  tclass:[],
+  show:[]
+}
+var list8 ={
+    number:713,
+    homelink:"//www.bilibili.com/v/technology/",
+    totalshow:false,
+    name:'科技',
+    content:['趣味科普人文','野生技术协会','演讲·公开课','星海','数码','机械','汽车'],
+    link:['technology/fun/','technology/wild/','technology/speech_course/','technology/military/','technology/digital/','technology/mechanical/','technology/automobile'],
+    tclass:[],
+    show:[]
+}
+
+var list8={
+    number:555555,
+    homelink:'//www.bilibili.com/v/life/',
+    totalshow:false,
+    name:'生活',
+    content:['搞笑','日常','美食圈','动物圈','手工','绘画','ASMR','运动','其他'],
+    link:['life/funny/','life/daily/','life/food/','life/animal/','life/handmake/','life/painting/','life/asmr/','life/sports/','life/other/'],
+    tclass:[],
+    show:[]
+}
+
+var list9={
+    number:345,
+    homelink:'//www.bilibili.com/v/kichiku/',
+    totalshow:false,
+    name:'鬼畜',
+    content:['鬼畜调教','音MAD','人力VOCALOID','教程演示'],
+    link:['kichiku/guide/','kichiku/mad/','kichiku/manual_vocaloid/','kichiku/course/'],
+    tclass:[],
+    show:[]
+}
+var list10={
+    number:99999,
+    homelink:'//www.bilibili.com/v/fashion/',
+    totalshow:false,
+    name:'时尚',
+    content:['美妆','服饰','健身','资讯'],
+    link:['fashion/makeup/','fashion/clothing/','fashion/aerobics/','fashion/information/'],
+    tclass:[],
+    show:[]
+}
+var list11={
+    number:12345,
+    homelink:'//www.bilibili.com/v/ad/ad',
+    totalshow:false,
+    name:'广告',
+    content:[],
+    link:[],
+    tclass:[],
+    show:[]
+}
+var list12={
+    number:515,
+    homelink:'//www.bilibili.com/v/ent/',
+    totalshow:false,
+    name:'娱乐',
+    content:['综艺','明星','Korea相关'],
+    link:['ent/variety','ent/start/','ent/korea'],
+    tclass:[],
+    show:[]
+}
+var list13={
+    number:123,
+    homelink:'//www.bilibili.com/v/cinephile/',
+    totalshow:false,
+    name:'影视',
+    content:['影视杂谈','影视剪辑','短片','预告·资讯','特摄'],
+    link:['cinephile/cinecism/','cinephile/montage','cinephile/shortfilm','cinephile/trailer_info','cinephile/tokusatsu/'],
+    tclass:[],
+    show:[]
+}
+var list14={
+    number:4,
+    homelink:'//www.bilibili.com/cinema/',
+    totalshow:false,
+    name:'放映厅',
+    content:['纪录片','电影','电视剧'],
+    link:['documentary/','movie/','tv/'],
+    tclass:[],
+    show:[]
+}
+
+
+//<a href="//www.bilibili.com/v/douga/mad/" class="sub-nav-link"><span>MAD·AMV<i class="arrow"></i></span></a>
+var listContainer =[list, list3,list4,list5,list6,list7,list8,list9,list10,list11,list12,list13,list14];
+//var listContainer =[list];
+var data={
+    hehe:listContainer,
+    showarray:[],
+    showarray2:[],
+    giflink:"https://search.bilibili.com/all?keyword=INFINI-T%20FORCE&from_source=gif_recommend&spm_id_from=333.334.primary_menu.108",
+    gifsrc:"animation.gif"
+}
+window.onload=function(){
+    var vue = new Vue({
+        el:"#titles",
+        data:data,
+        methods:{
+            showOptionList:function(index){
+                console.log("received index is "+index);
+                if(this.hehe[index].content.length>0){
+                this.showarray.splice(index,1,true);
+                }
+            },
+            hideOptionList:function(index){
+                this.showarray.splice(index,1,false);
+            },
+            showOptionList2:function(index){
+              if(this.hehe[index].content.length>0){
+                  this.showarray2.splice(index,1,true);
+              } 
+            },
+            hideOptionList2:function(index){
+              this.showarray2.splice(index,1,false);
+            },
+            goMove:function(loc,index){
+              console.log("move received value are"+loc+" "+index);
+              var target = this.hehe[loc];
+              target.tclass.splice(index,1,"move-right");
+              console.log(target.tclass[index]+"name");
+              target.show.splice(index,1,true);
+              this.hehe.splice(loc,1,target);//两个都要用splice啊。。我真是服了。
+             
+            },
+            goBack:function(loc,index){
+               console.log("back hehe");
+               var target = this.hehe[loc];
+               target.tclass.splice(index,1,"");
+               target.show.splice(index,1,false);
+               this.hehe.splice(loc,1,target);
+            }
+        }
+    });
+    var slideVue = new Vue({
+        el:"#slide",
+        data:{
+            showlist:[true],
+            content:["bilibili_slide4.jpg","bilibili_slide5.jpg","bilibili_slide3.jpg","bilibili_slide1.jpg","bilibili_slide2.jpg"],
+            timer:null,
+            morelink:'https://www.bilibili.com/blackboard/topic_list.html?spm_id_from=333.334.chief_recommend.2',
+            titles:['2017,生活区陪你一起走过','一定还会再见面','全明星阵容','♪(^∇^*)','周末来啦~'],
+            links:['https://www.bilibili.com/read/cv129822/','https://show.bilibili.com/platform/home.html?cityid=310100','https://show.bilibili.com/platform/detail.html?id=11257&from=sj_cpmdy_d','https://www.bilibili.com/blackboard/activity-ryJJHYwGM.html?spm_id_from=333.334.chief_recommend.7','https://www.bilibili.com/blackboard/topic/activity-HJiAYs1Xz.html?spm_id_from=333.334.chief_recommend.9'],
+            title:'2017,生活区陪你一起走过',
+            link:"https://www.bilibili.com/read/cv129822/",
+            start:0,
+            transitionname:'imgslide-fade',
+            switchback:false,
+            tips:[{tip:'一周',ind:'0'},{tip:'三日',ind:'1'},{tip:'昨日',ind:'2'}],
+            recommendInfo:null,
+            recomendList:[[{link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend1.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend1.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend1.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend1.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend1.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend1.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend1.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend1.jpg',author:'up主:呵呵杭二',count:'1.7万'}],[{link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend2.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend2.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend2.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend2.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend2.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend2.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend2.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend2.jpg',author:'up主:呵呵杭二',count:'1.7万'}],[{link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend3.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend3.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend3.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend3.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend3.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend3.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend3.jpg',author:'up主:呵呵杭二',count:'1.7万'},
+                           {link:'https://www.bilibili.com/video/av17650330/',title:'【新番推荐】史上最强 神话降临 1月新番开播前大分析',imgsrc:'bilibili_recommend3.jpg',author:'up主:呵呵杭二',count:'1.7万'}]]
+        },
+        created:function(){//如果不做初始化的话，直接点击后面的按钮会出现问题。
+         for(var i = 0 ; i < this.content.length-1; i ++){
+             this.showlist.push(false);
+         }
+         this.recommendInfo = this.recomendList[0];
+        },
+        methods:{
+         loop:function(){
+             var length = this.content.length;
+             var that = this;
+             if(length<1) return;
+             this.timer = setInterval(function(){
+                if(that.switchback){
+                    that.switchTransMode(true);
+                }
+                that.start = that.start%length;
+                if(that.start==length-1){
+                 that.showlist.splice(that.start,1,false);
+                 that.showlist.splice(0,1,true);
+                }
+                else{
+                that.showlist.splice(that.start,2,false,true);
+                }
+                that.start = (that.start+1)%length;
+                that.title=that.titles[that.start];
+                that.link=that.links[that.start];
+             },4000);
+         },
+         switchPic:function(index){
+              console.log("received index of trigger"+index);
+              clearInterval(this.timer);
+              if(index<this.start){
+                  this.switchTransMode(false);
+              }
+              else{
+                this.switchTransMode(true);
+              }
+              this.showlist.splice(this.start,1,false);
+              this.showlist.splice(index,1,true);
+              this.title=this.titles[index];
+              this.link=this.links[index];
+              this.start=index;
+              console.log("transition name"+this.transitionname);
+              this.loop();
+         },
+         switchTransMode:function(left){
+              if(left){
+                  this.transitionname="imgslide-fade";
+                  this.switchback=false;
+              }
+              else{
+                this.switchback=true;
+                this.transitionname="imgslide-fade-right"
+              }
+         },
+         stopLoop:function(){
+             clearInterval(this.timer);
+         },
+         continueLoop:function(){
+             this.loop();
+         },
+         preview:function(){
+             this.tips.push(this.tips.shift());
+             var index = this.tips[0].ind;
+             this.recommendInfo=this.recomendList[index];
+         },
+         nextview:function(){
+             this.unshift(this.tips.pop());
+             var index = this.tips[0].ind;
+             this.recommendInfo=this.recomendList[index];
+         }
+        }
+    })
+    slideVue.loop();
+
+
+}
+
+    </script>
+   </head>
+     <body>
+      <div id="titles" class="bili-wrapper">
+        <ul class="horizontal-list-container">
+         <li class="horizontal-list" is="nested-list" v-for="(item,index) in hehe" v-bind:key="index" v-bind:list="item" v-bind:location="index"
+         v-bind:show="showarray[index]" v-bind:show2="showarray2[index]"
+         v-on:showlist="showOptionList" v-on:showlist2="showOptionList2" v-on:hidelist="hideOptionList" v-on:hidelist2="hideOptionList2" v-on:move="goMove" v-on:back="goBack" > <!--这里不用加参数-->
+
+         </li>
+         <li class="horizontal-list side-nav" >
+            <a href="https://www.bilibili.com/read/home" class="side-link">
+                <i class="s-column"></i>
+                    <span>专栏</span>
+            </a>
+         </li>
+         <li class="horizontal-list side-nav">
+                <a href="https://www.bilibili.com/square" class="side-link">
+                    <i class="square"></i><span>广场</span></a>
+                <div class="square-content">
+                    <ul class="left-square">
+                      <li class="left-square-item">
+                        <a href="https://show.bilibili.com/platform/home.html" class="left-square-link">
+                        <i class="left-icon icon-vip"></i><span>会员购</span>
+                        </a>
+                      </li>
+                    <li class="left-square-item">
+                        <a href="https://show.bilibili.com/platform/home.html" class="left-square-link">
+                        <i class="left-icon icon-activity"></i><span>活动中心</span>
+                        </a>
+                    </li>
+                    <li class="left-square-item">
+                        <a href="https://show.bilibili.com/platform/home.html" class="left-square-link">
+                        <i class="left-icon icon-game"></i><span>游戏中心</span>
+                        </a>
+                    </li>
+                    <li class="left-square-item">
+                            <a href="https://show.bilibili.com/platform/home.html" class="left-square-link">
+                                <i class="left-icon icon-news"></i><span>新闻中心</span>
+                            </a>
+                    </li>
+                    <li class="left-square-item">
+                            <a href="https://show.bilibili.com/platform/home.html" class="left-square-link">
+                                <i class="left-icon icon-painter"></i><span>画友</span>
+                            </a>
+                    </li>
+                    <li class="left-square-item">
+                            <a href="https://show.bilibili.com/platform/home.html" class="left-square-link">
+                                <i class="left-icon icon-tv"></i><span>芒果TV</span>
+                            </a>
+                    </li>
+                    </ul>
+                    <div class="right-square">
+                         <div class="right-square-item">
+                                <a href="https://www.bilibili.com/blackboard/activity_list.html?spm_id_from=333.334.primary_menu.93" 
+                                target="_blank" title="bilibili 活动">
+                                <div class="lazy-img">
+                                    <img alt="" src="bilibili_activity.jpg">
+                                </div>
+                                </a>
+                 
+                         </div>
+                         <div class="right-square-item">
+                                <a href="https://www.bilibili.com/blackboard/topic_list.html" target="_blank" title="话题列表">
+                                    <div class="lazy-img">
+                                    <img alt="" src="bilibili_topic.jpg" />
+                                    </div>
+                                </a>
+                         </div>
+                    </div>
+                </div>
+         </li>
+         <li class="horizontal-list side-nav">
+                <a href="https://live.bilibili.com" class="side-link">
+                    <i class="live"></i><span>直播</span></a>
+                <div class="live-panel">
+                    <ul class="live-panel-left">
+                        <li class="live-panel-leftitem">
+                            <a href="https://live.bilibili.com/subject" class="live-panel-leftlink">
+                             <i class="leftArrow"></i>
+                             <span>推荐主播<i class="rightArrow"></i></span>
+                            </a>
+                        </li>
+                        <li class="live-panel-leftitem">
+                                <a href="https://live.bilibili.com/pages/area/ent" class="live-panel-leftlink">
+                                 <i class="leftArrow"></i>
+                                 <span>生活娱乐<i class="rightArrow"></i></span>
+                                </a>
+                            </li>
+                        <li class="live-panel-leftitem">
+                            <a href="https://live.bilibili.com/draw" class="live-panel-leftlink">
+                             <i class="leftArrow"></i>
+                            <span>绘画专区<i class="rightArrow"></i></span>
+                            </a>
+                        </li>
+                        <li class="live-panel-leftitem">
+                                <a href="https://live.bilibili.com/pages/area/ent" class="live-panel-leftlink">
+                                 <i class="leftArrow"></i>
+                                 <span>唱见舞见<i class="rightArrow"></i></span>
+                                </a>
+                        </li>
+                        <li class="live-panel-leftitem">
+                                <a href="https://live.bilibili.com/pages/area/ent" class="live-panel-leftlink">
+                                 <i class="leftArrow"></i>
+                                 <span>御宅文化<i class="rightArrow"></i></span>
+                                </a>
+                        </li>
+                        <li class="live-panel-leftitem">
+                                <a href="https://live.bilibili.com/single" class="live-panel-leftlink">
+                                 <i class="leftArrow"></i>
+                                <span>单机联机<i class="rightArrow"></i></span>
+                                </a>
+                        </li>
+                        <li class="live-panel-leftitem">
+                                <a href="https://live.bilibili.com/online" class="live-panel-leftlink">
+                                 <i class="leftArrow"></i>
+                                <span>网络游戏<i class="rightArrow"></i></span>
+                                </a>
+                        </li>
+                        <li class="live-panel-leftitem">
+                                <a href="https://live.bilibili.com/e-sports" class="live-panel-leftlink">
+                                 <i class="leftArrow"></i>
+                                <span>电子竞技<i class="rightArrow"></i></span>
+                                </a>
+                        </li>
+                        <li class="live-panel-leftitem">
+                                <a href="https://live.bilibili.com/mobile-game" class="live-panel-leftlink">
+                                 <i class="leftArrow"></i>
+                                <span>手游直播<i class="rightArrow"></i></span>
+                                </a>
+                        </li>
+                    </ul>
+                    <div class="live-panel-right">
+                        <a target="_blank" href="https://h.bilibili.com" class="picvideo" alt="图文配">
+                        <img src="camera.png" />
+                        </a>
+                        <a target="_blank" href="https://vc.bilibili.com" class="picvideo" alt="小视频">
+                            <img src="video.png" />
+                        </a>
+                    </div>
+                </div>
+         </li>
+         <li class="horizontal-list side-nav">
+                <a href="https://www.bilibili.com/blackroom/" class="side-link">
+                    <i class="blackroom"></i><span>小黑屋</span></a>
+         </li>
+        </ul>
+        <div class="nav-gif">
+            <a :href="giflink" class="gif-container" target="_blank" >
+             <img :src="gifsrc" alt="animation" />
+            </a>
+        </div>
+      </div>
+      <div id="slide" class="bili-wrapper">
+          <div class="slide-container clearfix ">
+            <my-slide v-for="(item,index) in content" v-bind:show="showlist[index]" v-bind:link="links[index]" v-bind:tname="transitionname" v-bind:hehe="item" v-on:mouseover.native="stopLoop" v-on:mouseout.native="continueLoop"></my-slide>
+            <div class="slide-title">
+                <a :href="link" target="_blank" alt="title" class="slide-title-link">
+                    {{title}}
+                </a>
+            </div>
+            <ul class="slide-trigger">
+                <li v-for="(item,index) in content" :class="showlist[index]? 'eat-pic':'slide-trigger-item'" v-on:click="switchPic(index)">
+                   
+                </li>
+            </ul>
+            <a class="slide-more-info" :href="morelink" target="_blank" >更多</a>
+          </div>
+          <div class="recommend-panel clearfix " >
+            <recommend-card v-for="item in recommendInfo" v-bind:link="item.link" v-bind:title="item.title" 
+            v-bind:imgsrc="item.imgsrc" v-bind:author="item.author" v-bind:count="item.count" >
+            </recommend-card>
+            <span class="review-btn pre" v-on:click="preview">{{tips[0].tip}}</span>
+            <span class="review-btn next" v-on:click="nextview">{{tips[1].tip}}</span>
+          </div>
+      </div>
+         
+    
+
+
+    </body>
+</html>
