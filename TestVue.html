@@ -409,13 +409,48 @@ window.onload=function(){
         }
     })
     slideVue.loop();
-
-
 }
 
     </script>
    </head>
      <body>
+      <div id="header" >
+       <div class="backgroundimg">
+         <div class="mask">
+         </div>
+         <div class="bili-wrapper clearfix ">
+            <div class="left-header">
+               <ul>
+                <li class="left-header-item home">
+                   
+                    <a href="htt" class="left-header-link" target="_blank" title="" >
+                        <i class="bili-icon homeicon "></i>
+                        主站</a></li>
+                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >画友</a></li>
+                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >游戏中心</a></li>
+                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >直播</a></li>
+                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >会员购</a></li>
+                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >周边</a></li>
+                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >移动端</a></li>
+               </ul>
+            </div>
+            <div class="right-header-upload">
+               <a href="http:upload" target="_blank" class="upload-link">
+                   投稿
+               </a> 
+            </div>
+            <div class="user-menu">
+                <div class="user-menu-first"><a href="http" target="_blank"  ><img class="user-pic" src="user.jpg" /></a></div>
+                <div class="left-header-item"><a href="http" target="_blank" class="left-header-link" >历史</a></div>
+            </div>
+         </div>
+       </div>
+       <div class="backimglink">
+           <div class="bili-wrapper head-content">
+              
+           </div> 
+       </div>
+      </div>
       <div id="titles" class="bili-wrapper">
         <ul class="horizontal-list-container">
          <li class="horizontal-list" is="nested-list" v-for="(item,index) in hehe" v-bind:key="index" v-bind:list="item" v-bind:location="index"
