@@ -951,9 +951,64 @@ top:13px;
     height:28px;
     line-height: 28px;
 }
+/*css for upload item */
+.upload-item{
+    margin:0;
+    padding:0;
+    display:block;
+    position:absolute;
+    top:400px;
+    list-style: none;
+}
+.upload-item li{
+    float:left;
+    position: relative;
+    color:pink;
+    cursor:pointer;
+    width:72px;
+    height:64px;
+    background-color:blue;
+    text-align: center;
+    font-size: 12px;
+}
+.upload-item li:hover{
+    background-color: white;
+}
+.upload-item li:hover .rect{
+    transform: translateY(-2px);
+}
 
-
-
+.upload-item li a{
+    width:100%;
+    height:100%;
+    display: block;
+    color: #f25d8e;
+    width:100%;
+    height:100%;
+    text-decoration: none;
+}
+.rect {
+    display:block;
+    width:20px;
+    height:20px;
+    margin:15px auto 2px;
+    transition:0.2s;
+}
+.art{
+    background-position: -534px -919px;
+}
+.audio{
+    background-position: -534px -983px;
+}
+.video{
+    background-position:-471px -919px;
+}
+.vote{
+    background-position: -471px -982px;
+}
+.creation{
+    background-position: -471px -1751px;
+}
 
 
 
