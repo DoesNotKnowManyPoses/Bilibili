@@ -828,6 +828,131 @@ top:13px;
  position:relative;
  height:170px;
 }
+/*css for game panel.*/
+.game-panel{
+    position: absolute;
+    top:42px;
+    left:0;
+    width:468px;
+    height:260px;
+    background-color:lavender;
+    border-radius: 6px;
+}
+.left-game-panel{
+    position:absolute;
+    width:268px;
+    height:100%;
+    top:0;
+    left:0;
+}
+.leftup-game-panel{
+    position:relative;
+    width:240px;
+    height:130px;
+    left:12px;
+    top:12px;
+    text-decoration: none;
+    display:block;
+}
+.leftup-game-panel img{
+    width:100%;
+    height:100%;
+}
+.small-game-list{
+    position:relative;
+    list-style: none;
+    top:5px;
+}
+.small-game-item{
+    position:relative;
+    float:left;
+    height:110px;
+}
+.small-game-item:hover{
+    background-color:lightblue;
+}
+.small-game-link{
+    text-decoration: none;
+    padding:0px 12px;
+    display:block;
+    height:100%;
+    color:black;
+}
+.small-game-link img{
+    width:64px;
+    height:64px;
+    border-radius: 4px;
+    display:block;
+    margin:5px 0;
+}
+.game-desc{
+    margin:0;
+    text-align: center;
+    width:64px;
+    font-size: 12px;
+    height:24px;
+    line-height: 24px;
+}
+.right-game-panel{
+    position:absolute;
+    right:0px;
+    width:200px;
+    top:12px;
+    height:236px;
+    background: url("line.png") 0 0 no-repeat;
+}
+.rightup-game-list{
+    position:absolute;
+    top:30px;
+    left:6px;
+    list-style: none;
+    width:194px;
+}
+.rightup-game-item{
+    display:block;
+    width:100%;
+}
+.rightup-game-item:hover{
+    background-color: lightblue;
+}
+.rightup-game-link{
+    text-decoration: none;
+    color:black;
+    
+    width:100%;
+    display:inline-block;
+}
+.rightup-game-link span{
+    font-size: 14px;
+    line-height: 26px;
+    height:26px;
+    margin-left:20px;
+}
+.rightup-game-panel{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:28px;
+}
+.rightup-game-img{
+    position:relative;
+    float:left;
+    width:104px;
+    height:28px;
+}
+.forum-link{
+    float:right;
+    position: relative;
+    right:5px;
+    text-decoration: none;
+    color:royalblue;
+    font-size: 12px;
+    height:28px;
+    line-height: 28px;
+}
+
+
 
 
 
