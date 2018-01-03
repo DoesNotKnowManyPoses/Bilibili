@@ -402,7 +402,7 @@ window.onload=function(){
              this.recommendInfo=this.recomendList[index];
          },
          nextview:function(){
-             this.unshift(this.tips.pop());
+             this.tips.unshift(this.tips.pop());
              var index = this.tips[0].ind;
              this.recommendInfo=this.recomendList[index];
          }
@@ -418,6 +418,12 @@ window.onload=function(){
      <body>
       <div id="titles" class="bili-wrapper">
         <ul class="horizontal-list-container">
+         <li class="horizontal-list">
+             <a href="https" target="_blank" class="homelink">
+                 <i class="home-icon"></i>
+                 <span>首页</span>
+             </a>
+         </li>
          <li class="horizontal-list" is="nested-list" v-for="(item,index) in hehe" v-bind:key="index" v-bind:list="item" v-bind:location="index"
          v-bind:show="showarray[index]" v-bind:show2="showarray2[index]"
          v-on:showlist="showOptionList" v-on:showlist2="showOptionList2" v-on:hidelist="hideOptionList" v-on:hidelist2="hideOptionList2" v-on:move="goMove" v-on:back="goBack" > <!--这里不用加参数-->
