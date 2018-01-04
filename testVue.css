@@ -904,9 +904,9 @@ top:13px;
 .rightup-game-list{
     position:absolute;
     top:30px;
-    left:6px;
+    left:5px;
     list-style: none;
-    width:194px;
+    width:195px;
 }
 .rightup-game-item{
     display:block;
@@ -951,6 +951,19 @@ top:13px;
     height:28px;
     line-height: 28px;
 }
+.rightup-pic{
+    position: absolute;;
+    top:40px;
+    left:440px;
+    height:220px;
+    width:220px;
+}
+.rightup-pic img{
+    width:100%;
+    height:100%;
+}
+
+
 
 
 

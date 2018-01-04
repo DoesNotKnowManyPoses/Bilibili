@@ -2,31 +2,45 @@
 <html>
  <head>
     <link rel="stylesheet" type="text/css" href="testVue.css" />
+    <script src="vue.js" ></script>
+    <script>
+       window.onload=function(){
+       var gameVue = new Vue({
+           el:"#game",
+           data:{
+            gamepanelshow:true,
+            picshow:false,
+            srclink:"",
+            largeGame:{hreflink:"http://game.bilibili.com/fgo/fes/",srclink:"fate2.gif"},
+            middleGameList:[{hreflink:"",srclink:"game.gif",desc:"碧蓝航线"},{hreflink:"",srclink:"game.gif",desc:"寂暗星空"},{hreflink:"",srclink:"game.gif",desc:"修真世界"}],
+            smallGameList:[{hreflink:"",desc:"决战，平安京",srclink:"pkanjk.png"},{hreflink:"",desc:"武装色霸气路飞",srclink:"hjkuke.jpg"},{hreflink:"",desc:"九刀流阿修罗",srclink:"capcom.png"},{hreflink:"",desc:"赤魔疯脚",srclink:"pkanjk.png"},
+            {hreflink:"",desc:"王之蔑视",srclink:"hjkuke.jpg"},{hreflink:"",desc:"大玉螺旋丸",srclink:"pkanjk.png"},{hreflink:"",desc:"重建罗生门",srclink:"capcom.png"}]
+          },
+          methods:{
+            showPic:function(index){
+                this.srclink=this.smallGameList[index].srclink;
+                this.picshow=true;
+            },
+            hidePic:function(){
+                this.picshow=false;
+            }
+          }
+       });
+       }
+    </script>
  </head>
  <body>
-   <div class="game-panel">
-       <div class="left-game-panel ">
-            <a href="http://game.bilibili.com/fgo/fes/" class="leftup-game-panel" target="_blank" >
-                <img src="fate2.gif" />
+   <div id="game" class="game-panel">
+       <div class="left-game-panel " v-show="gamepanelshow">
+            <a :href="largeGame.hreflink" class="leftup-game-panel" target="_blank" >
+                <img :src="largeGame.srclink" />
             </a>
             <ul class="small-game-list">
-                <li class="small-game-item">
-                    <a href="" class="small-game-link">
-                        <img src="game.gif" />
-                        <p class="game-desc">碧蓝航线</p>
+                <li  class="small-game-item" v-for="(item,index) in middleGameList" v-bind:key="index" >
+                    <a :href="item.hreflink" class="small-game-link">
+                        <img :src="item.srclink" />
+                        <p class="game-desc">{{item.desc}}</p>
                     </a>     
-                </li>
-                <li class="small-game-item">
-                    <a href="" class="small-game-link">
-                        <img src="game.gif" />
-                        <p class="game-desc">碧蓝航线</p>
-                    </a> 
-                </li>
-                <li class="small-game-item">
-                    <a href="" class="small-game-link">
-                        <img src="game.gif" />
-                        <p class="game-desc">碧蓝航线</p>
-                    </a>       
                 </li>
             </ul>
        </div>
@@ -38,42 +52,15 @@
              </a>
           </div>
           <ul class="rightup-game-list">
-              <li class="rightup-game-item">
-                  <a href="" class="rightup-game-link">
-                     <span>决战！平安京</span>
+              <li  v-for="(item,index) in smallGameList" v-bind:key="index" class="rightup-game-item" v-on:mouseover="showPic(index)" v-on:mouseout="hidePic">
+                  <a :href="item.hreflink" class="rightup-game-link">
+                     <span>{{item.desc}}</span>
                   </a>
               </li>
-              <li class="rightup-game-item">
-                <a href="" class="rightup-game-link">
-                    <span>决战！平安京</span>
-                </a>
-            </li>
-            <li class="rightup-game-item">
-                <a href="" class="rightup-game-link">
-                    <span>决战！平安京</span>
-                </a>
-            </li>
-            <li class="rightup-game-item">
-                <a href="" class="rightup-game-link">
-                    <span>决战！平安京</span>
-                </a>
-            </li>
-            <li class="rightup-game-item">
-                <a href="" class="rightup-game-link">
-                    <span>决战！平安京</span>
-                </a>
-            </li>
-            <li class="rightup-game-item">
-                <a href="" class="rightup-game-link">
-                    <span>决战！平安京</span>
-                </a>
-            </li>
-            <li class="rightup-game-item">
-                <a href="" class="rightup-game-link">
-                    <span>决战！平安京</span>
-                </a>
-            </li>
           </ul>
+       </div>
+       <div class="rightup-pic" v-show="picshow">
+         <img :src="srclink" />
        </div>
    </div>
  </body>
