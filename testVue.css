@@ -904,9 +904,9 @@ top:13px;
 .rightup-game-list{
     position:absolute;
     top:30px;
-    left:6px;
+    left:5px;
     list-style: none;
-    width:194px;
+    width:195px;
 }
 .rightup-game-item{
     display:block;
@@ -951,6 +951,7 @@ top:13px;
     height:28px;
     line-height: 28px;
 }
+<<<<<<< HEAD
 /*css for upload item */
 .upload-item{
     margin:0;
@@ -977,6 +978,21 @@ top:13px;
 .upload-item li:hover .rect{
     transform: translateY(-2px);
 }
+=======
+.rightup-pic{
+    position: absolute;;
+    top:40px;
+    left:440px;
+    height:220px;
+    width:220px;
+}
+.rightup-pic img{
+    width:100%;
+    height:100%;
+}
+
+
+>>>>>>> 143c4bc141d6eaedf2f885d520a79c3f895c6cc7
 
 .upload-item li a{
     width:100%;
