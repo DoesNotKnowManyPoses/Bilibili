@@ -258,6 +258,33 @@ var data={
     gifsrc:"animation.gif"
 }
 window.onload=function(){
+    var gameVue = new Vue({
+           el:"#header",
+           data:{
+            gamepanelshow:false,
+            picshow:false,
+            srclink:"",
+            largeGame:{hreflink:"http://game.bilibili.com/fgo/fes/",srclink:"fate2.gif"},
+            middleGameList:[{hreflink:"",srclink:"game.gif",desc:"碧蓝航线"},{hreflink:"",srclink:"game.gif",desc:"寂暗星空"},{hreflink:"",srclink:"game.gif",desc:"修真世界"}],
+            smallGameList:[{hreflink:"",desc:"决战，平安京",srclink:"pkanjk.png"},{hreflink:"",desc:"武装色霸气路飞",srclink:"hjkuke.jpg"},{hreflink:"",desc:"九刀流阿修罗",srclink:"capcom.png"},{hreflink:"",desc:"赤魔疯脚",srclink:"pkanjk.png"},
+            {hreflink:"",desc:"王之蔑视",srclink:"hjkuke.jpg"},{hreflink:"",desc:"大玉螺旋丸",srclink:"pkanjk.png"},{hreflink:"",desc:"重建罗生门",srclink:"capcom.png"}]
+          },
+          methods:{
+            showPic:function(index){
+                this.srclink=this.smallGameList[index].srclink;
+                this.picshow=true;
+            },
+            hidePic:function(){
+                this.picshow=false;
+            },
+            showGamePanel:function(){
+             this.gamepanelshow = true;
+            },
+            hideGamePanel:function(){
+             this.gamepanelshow = false;
+            }
+          }
+       });
     var vue = new Vue({
         el:"#titles",
         data:data,
@@ -428,7 +455,44 @@ window.onload=function(){
                         <i class="bili-icon homeicon "></i>
                         主站</a></li>
                 <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >画友</a></li>
-                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >游戏中心</a></li>
+                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" v-on:mouseover="showGamePanel" v-on:mouseout="hideGamePanel">游戏中心</a>
+                    <transition name="game-panel">
+                    <div  class="game-panel" v-show="gamepanelshow" v-on:mouseover="showGamePanel" v-on:mouseout="hideGamePanel">
+                       
+                        <div class="left-game-panel " >
+                             <a :href="largeGame.hreflink" class="leftup-game-panel" target="_blank" >
+                                 <img :src="largeGame.srclink" />
+                             </a>
+                             <ul class="small-game-list">
+                                 <li  class="small-game-item" v-for="(item,index) in middleGameList" v-bind:key="index" >
+                                     <a :href="item.hreflink" class="small-game-link">
+                                         <img :src="item.srclink" />
+                                         <p class="game-desc">{{item.desc}}</p>
+                                     </a>     
+                                 </li>
+                             </ul>
+                        </div>
+                        <div class="right-game-panel">
+                           <div class="rightup-game-panel">
+                              <img src="foreshow.gif" class="rightup-game-img" />
+                              <a href="" target="_blank" class="forum-link">
+                                  游戏论坛
+                              </a>
+                           </div>
+                           <ul class="rightup-game-list">
+                               <li  v-for="(item,index) in smallGameList" v-bind:key="index" class="rightup-game-item" v-on:mouseover="showPic(index)" v-on:mouseout="hidePic">
+                                   <a :href="item.hreflink" class="rightup-game-link">
+                                      <span>{{item.desc}}</span>
+                                   </a>
+                               </li>
+                           </ul>
+                        </div>
+                        <div class="rightup-pic" v-show="picshow">
+                          <img :src="srclink" />
+                        </div>
+                    </div> 
+                    </transition>
+                </li>
                 <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >直播</a></li>
                 <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >会员购</a></li>
                 <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >周边</a></li>
@@ -633,7 +697,7 @@ window.onload=function(){
       </div>
          
     
-
+     
 
     </body>
 </html>

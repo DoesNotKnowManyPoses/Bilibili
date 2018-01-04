@@ -748,6 +748,7 @@ opacity:1;
     background-color: hsla(0,0%,100%,0);
     /*H（Hue）：代表色调，S（Saturation）：代表饱和度，L（Lightness）：代表亮度，（A（Alpha）：代表不透明度）*/
 }
+
 .bili-icon{
 background-image: url("backgroundIcon.png") ;
 }
@@ -761,7 +762,7 @@ left:3px;
 top:13px;
 }
 .home{
-    margin-left: -10px;
+    margin-left: -4px;
     padding-left: 12px;
 }
 .left-header-item:hover{
@@ -837,7 +838,20 @@ top:13px;
     height:260px;
     background-color:lavender;
     border-radius: 6px;
+    opacity:1;
 }
+.game-panel-enter-active{
+  transition: all 0.2s ease;
+  transition-delay: 0.2s;
+}
+.game-panel-leave-active{
+ transition:all 0.1s ease;
+}
+.game-panel-enter,.game-panel-leave-to{
+ transform:translateY(20px);
+ opacity:0;
+}
+
 .left-game-panel{
     position:absolute;
     width:268px;
@@ -861,7 +875,7 @@ top:13px;
 .small-game-list{
     position:relative;
     list-style: none;
-    top:5px;
+    top:20px;
 }
 .small-game-item{
     position:relative;
@@ -907,6 +921,8 @@ top:13px;
     left:5px;
     list-style: none;
     width:195px;
+    font-size: 14px;
+    line-height: 26px;
 }
 .rightup-game-item{
     display:block;
@@ -918,15 +934,18 @@ top:13px;
 .rightup-game-link{
     text-decoration: none;
     color:black;
-    
     width:100%;
     display:inline-block;
+    padding:2px 0 2px;
 }
 .rightup-game-link span{
     font-size: 14px;
     line-height: 26px;
     height:26px;
     margin-left:20px;
+    text-align: left;
+    position:relative;
+    display:block;
 }
 .rightup-game-panel{
     position:absolute;
@@ -951,7 +970,6 @@ top:13px;
     height:28px;
     line-height: 28px;
 }
-<<<<<<< HEAD
 /*css for upload item */
 .upload-item{
     margin:0;
@@ -978,7 +996,6 @@ top:13px;
 .upload-item li:hover .rect{
     transform: translateY(-2px);
 }
-=======
 .rightup-pic{
     position: absolute;;
     top:40px;
@@ -992,7 +1009,6 @@ top:13px;
 }
 
 
->>>>>>> 143c4bc141d6eaedf2f885d520a79c3f895c6cc7
 
 .upload-item li a{
     width:100%;
@@ -1026,8 +1042,130 @@ top:13px;
     background-position: -471px -1751px;
 }
 
+/*css for live panel in header */
+.header-live-panel{
+    position:absolute;
+    top:200px;
+    left:300px;
+    width:528px;
+    height:266px;
+    background-color: papayawhip;
+    border-radius: 6px;
+}
+.header-live-lf{
+    float:left;
+    width:254px;
+    position:relative;
+   
+}
+.header-live-rf{
+    position:relative;
+    width:250px;
+    float: right;
+}
+.live-title{
+    position:relative;
+    left:20px;
+    height:20px;
+    line-height: 20px;
+    font-size: 14px;
+    color:palevioletred;
+}
+.hot-live{
+    position: relative;
+    margin:0;
+    padding:0;
+    width:100%;
 
+}
+.hot-live-item{
+    margin-left:10px;
+    margin-top:10px;
+    display:inline-block;
+    text-decoration: none;
+    position: relative;
+}
+.hot-live-item img{
+    width:70px;
+    height:70px;
+    border-radius: 70px;
+}
+.hot-live-item span{
+    height:20px;
+    line-height: 20px;
+    font-size: 12px;
+    display:block;
+    text-align: center;
+}
+.hot-live-item i{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(0,0,0,.5);
+    font-style: normal;
+    font-size: 15px;
+    color: #fff;
+    text-indent: 22px;
+    line-height: 70px;
+    font-weight: 700;
+    cursor: pointer;
+    animation: scale-in-ease cubic-bezier(.22, .58, .12, .98) .5s;
+}
+.hot-live-item i:before{
+    position: absolute;
+    left: 7px;
+    top: 29px;
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: #ff699e;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.hot-live-item:hover i{
+    display:block;
+}
+.header-live-activity{
+  position:relative;
+  width:100%;
+  height:210px;
+  border-left:1px solid grey;
+}
+.header-live-activity a{
+text-decoration: none;
+display:inline-block;
+padding:10px 20px;
+}
+.header-live-activity img{
+    width:208px;
+    height:80px;
+    margin-left:1px;
+}
+.header-live-activity a:hover{
+    background-color: #eaeaea;
+}
 
+@keyframes scale-in-ease {
+0% {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+50% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+}
 
 @media screen and (max-width: 1400px){
     .bili-wrapper{
