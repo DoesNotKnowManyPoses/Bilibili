@@ -262,12 +262,15 @@ window.onload=function(){
            el:"#header",
            data:{
             gamepanelshow:false,
+            livepanelshow:false,
             picshow:false,
             srclink:"",
             largeGame:{hreflink:"http://game.bilibili.com/fgo/fes/",srclink:"fate2.gif"},
             middleGameList:[{hreflink:"",srclink:"game.gif",desc:"碧蓝航线"},{hreflink:"",srclink:"game.gif",desc:"寂暗星空"},{hreflink:"",srclink:"game.gif",desc:"修真世界"}],
             smallGameList:[{hreflink:"",desc:"决战，平安京",srclink:"pkanjk.png"},{hreflink:"",desc:"武装色霸气路飞",srclink:"hjkuke.jpg"},{hreflink:"",desc:"九刀流阿修罗",srclink:"capcom.png"},{hreflink:"",desc:"赤魔疯脚",srclink:"pkanjk.png"},
-            {hreflink:"",desc:"王之蔑视",srclink:"hjkuke.jpg"},{hreflink:"",desc:"大玉螺旋丸",srclink:"pkanjk.png"},{hreflink:"",desc:"重建罗生门",srclink:"capcom.png"}]
+            {hreflink:"",desc:"王之蔑视",srclink:"hjkuke.jpg"},{hreflink:"",desc:"大玉螺旋丸",srclink:"pkanjk.png"},{hreflink:"",desc:"重建罗生门",srclink:"capcom.png"}],
+            liveList:[{hreflink:"",srclink:"host1.jpg",host:"梦醒三年梦"},{hreflink:"",srclink:"host2.jpg",host:"今昔是何年"},{hreflink:"",srclink:"host3.jpg",host:"乘风归去"},{hreflink:"",srclink:"host4.jpg",host:"琼楼玉宇"},{hreflink:"",srclink:"host5.jpg",host:"高处不胜寒"},{hreflink:"",srclink:"host6.jpg",host:"何似在人间"}],
+
           },
           methods:{
             showPic:function(index){
@@ -282,6 +285,12 @@ window.onload=function(){
             },
             hideGamePanel:function(){
              this.gamepanelshow = false;
+            },
+            showLivePanel:function(){
+             this.livepanelshow = true;
+            },
+            hideLivePanel:function(){
+             this.livepanelshow = false;
             }
           }
        });
@@ -493,7 +502,29 @@ window.onload=function(){
                     </div> 
                     </transition>
                 </li>
-                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >直播</a></li>
+                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" v-on:mouseover="showLivePanel" v-on:mouseout="hideLivePanel">直播</a>
+                <transition name="game-panel">
+                <div class="header-live-panel" v-show="livepanelshow" v-on:mouseover="showLivePanel" v-on:mouseout="hideLivePanel">
+                    <div class="header-live-lf">
+                       <p class="live-title">热门直播:</p>
+                       <div class="hot-live" >
+                          <a  class="hot-live-item" v-for="(item,index) in liveList" v-bind:key="index" :href="item.hreflink">
+                                <img :src="item.srclink" />
+                                <i>LIVE</i>
+                                <span>{{item.host}}</span>
+                          </a>
+    
+                         </div>
+                    </div>
+                    <div class="header-live-rf">
+                       <p class="live-title title2">热门活动:</p>
+                       <div class="header-live-activity">
+                           <a href="" target="_blank" title="" >
+                               <img src="bilibili_activity4.jpg" />
+                           </a>
+                       </div>
+                    </div>
+                  </div></transition></li>
                 <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >会员购</a></li>
                 <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >周边</a></li>
                 <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >移动端</a></li>

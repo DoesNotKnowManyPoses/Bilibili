@@ -236,7 +236,7 @@ a{
  display:none;
  width:387px;
  height:188px;
- background-color:lightgrey;
+ background-color:white;
  border-radius: 6px;
  padding: 20px 0 20px 0;
  z-index:10;
@@ -340,7 +340,7 @@ a{
     overflow:hidden;
     left:-10px;
     display:none;
-    background-color: lightgrey;
+    background-color: white;
     padding:20px 0 10px 0;
     border-radius: 6px;
 }
@@ -1045,17 +1045,23 @@ top:13px;
 /*css for live panel in header */
 .header-live-panel{
     position:absolute;
-    top:200px;
-    left:300px;
+    top:42px;
+    left:0px;
     width:528px;
     height:266px;
-    background-color: papayawhip;
+    background-color: lavender;
     border-radius: 6px;
+    overflow: hidden;
+    line-height: 0;
+    /*line height inherited from the left-header-item
+    will change the distanbe between the vertical elements.
+    no margin/padding will show that.*/
 }
 .header-live-lf{
     float:left;
     width:254px;
     position:relative;
+    
    
 }
 .header-live-rf{
@@ -1089,6 +1095,7 @@ top:13px;
     width:70px;
     height:70px;
     border-radius: 70px;
+    display:block;
 }
 .hot-live-item span{
     height:20px;
@@ -1096,6 +1103,11 @@ top:13px;
     font-size: 12px;
     display:block;
     text-align: center;
+    width:70px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin:0;
 }
 .hot-live-item i{
     display: none;
