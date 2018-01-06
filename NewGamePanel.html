@@ -29,6 +29,107 @@
             }
           }
        });
+
+       var movableVue = new Vue({
+           el:"#movable",
+           data:{
+               left:0,
+               top:10,
+               startLeft:0,
+               startTop:0,
+               width:160,
+               height:90,
+               num:41,
+               numPerRow:10,
+               ratio:0,
+               bgposition:{
+                backgroundPositionX:"0px",
+                backgroundPositionY:"0px"
+               },
+               showMovablePic:false,
+               timeoutList:[],
+               looptimeout:null,
+               timeInterval:null,
+               bulletStyle:[],
+               bullets:['好可爱','小姐姐跳的真好','这么可爱一定是男孩子','笑哭惹','疯狂打call','lllll']
+           },
+           methods:{
+              
+            startMovable:function(event){
+              this.setNewPosition(event); //根据鼠标的位置，直接定位到对应的背景图片的位置
+              this.showBullet();//弹幕准备发射
+            },
+            move:function(event){
+              this.setNewPosition(event); //这个事件只会触发背景图片位置的切换。
+            },
+            /*根据鼠标的水平位置，设置背景图片的位置，来模拟预览*/
+            setNewPosition:function(event){
+                var offset=event.offsetX;
+                this.startTop=event.offsetY;
+                this.ratio = offset*100.0/this.width;
+                var sequence = Math.floor(offset*this.num/(this.width+1));
+                var sequenceV = Math.floor(sequence/this.numPerRow);
+                var sequenceH = sequence%this.numPerRow;
+                this.left = 0-sequenceH*this.width;
+                this.top = 0- sequenceV*this.height;
+                console.log("sequence is "+sequenceH+" "+sequenceV);
+                this.bgposition.backgroundPositionX=this.left+"px";
+                this.bgposition.backgroundPositionY=this.top+"px";
+            },
+            /*弹幕第一行还是第二行*/
+            isSecondRow:function(index){
+                return index%2!=0;
+            },
+            /**/
+            reloadBullets:function(){
+               this.timeoutList.forEach(function(timeout){//清除没跑完的setTimeout
+                   clearTimeout(timeout);
+               });
+               this.timeoutList=[];                  
+               this.bulletStyle.splice(0,this.bulletStyle.length); //清除新设定的目标位置
+            },
+            /*将已经设置了bulletstyle的timeout保留，还未执行的timeout取消掉*/
+            hideMovable:function(){
+                var start = this.bulletStyle.length;   
+                var end = this.timeoutList.length; 
+               for(var i = start;i<end; i ++){
+                   clearTimeout(this.timeoutList[i]);
+               }
+               this.timeoutList.splice(start,end-start);
+               clearTimeout(this.looptimeout);
+            },
+            showBullet:function(){
+              var bulletList = this.$refs.p;
+              var that = this;
+              var start = this.bulletStyle.length;
+              if(start==bulletList.length&&start>0){//弹幕已经弹完，需要弄一个循环
+                  this.looptimeout = setTimeout( function(){
+                            that.reloadBullets();
+                            that.showBullet();
+                        },7000);
+                 return;
+              }
+              for(var i = start ; i < bulletList.length; i ++){
+                this.timeoutList.push(setTimeout(function(index){
+                   return function(){
+                   var length = bulletList[index].clientWidth;
+                   var style={};
+                   style.left="-"+length+"px";
+                   style.transition="all 5s linear";
+                    that.bulletStyle.push(style);
+                    console.log("index is "+index);
+                    if(index==bulletList.length-1){
+                        that.looptimeout=setTimeout(function(){
+                            that.reloadBullets();
+                            that.showBullet();
+                        },7000);
+                    }
+                   };
+                }(i),(i-start)*1000));
+              }
+            }
+           }
+       })
        }
     </script>
  </head>
@@ -122,6 +223,21 @@
 
 
 
- 
+<div id="movable" class="video-container">
+<a href="http" target="_blank" title="">
+<img src="movablevideo.webp" />
+<div   class="movable-pic-container" v-on:mouseover="startMovable($event)" v-on:mousemove="move($event)" v-on:mouseout="hideMovable">
+    <p v-for="(item,index) in bullets" class="row-bullet" :class="{'second-row': isSecondRow(index)}" :style="bulletStyle[index]" ref="p">{{bullets[index]}}</p>
+    <div class="percent-bar">
+        <div class="percent" :style="{width:ratio+'%'}"></div>
+    </div>
+    <div class="movable-pic" :style="bgposition" >
+    </div>
+   
+</div>
+<div class="later-watch">
+</div>
+</a>
+</div>
  </body>
 </html>
