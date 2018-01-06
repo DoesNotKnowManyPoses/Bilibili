@@ -1209,7 +1209,7 @@ padding:10px 20px;
   left:0;
   width:160px;
   height:90px;
-  background:url("movablepic.webp") 0 0 no-repeat;
+  /*background:url("movablepic.webp") 0 0 no-repeat;*/
   overflow: hidden;
 }
 .row-bullet{
@@ -1247,7 +1247,19 @@ padding:10px 20px;
     display:block;
 }
 
-
+/*css for text vue component*/
+#movable{
+    position:absolute;
+    left:400px;
+    height:300px;
+    width:1000px;
+    height:500px;
+}
+.first-example{
+    position:absolute;
+    left:0px;
+    top:0;
+}
 
 @media screen and (max-width: 1400px){
     .bili-wrapper{
