@@ -263,6 +263,14 @@ window.onload=function(){
            data:{
             gamepanelshow:false,
             livepanelshow:false,
+            votepanelshow:false,
+            christmas:"",
+            historyList:[],
+            show:false,
+            hintShow:false,
+            showDelete:true,
+            hideDelete:false,
+            hintList:[{title:'aa'},{title:'aaa'},{title:'b'},{title:'c'},{title:'d'},{title:'e'}],
             picshow:false,
             srclink:"",
             largeGame:{hreflink:"http://game.bilibili.com/fgo/fes/",srclink:"fate2.gif"},
@@ -291,6 +299,60 @@ window.onload=function(){
             },
             hideLivePanel:function(){
              this.livepanelshow = false;
+            },
+            showuploadpanel:function(){
+            this.votepanelshow = true;
+            },
+            hideuploadpanel:function(){
+            this.votepanelshow = false;
+            },
+            //for search history and hint
+            doSearch:function(){
+                if(this.christmas){
+                    history.addCookie(this.christmas);
+                    this.historyList = history.getHistoryList();
+                    parent.location.href="//search.bilibili.com/all?keyword="+this.christmas;
+                  }
+  
+            },
+            showHistory:function(){
+             if(this.christmas) return;
+              this.historyList =  history.getHistoryList();
+              console.log(this.historyList);
+              if(this.historyList.length<1) return;
+              this.show=true;
+            },
+            hideHistory:function(event){
+                if(event){
+                    console.log(event);
+                }
+                this.show = false;
+            },
+            deleteHistory:function(index){
+                
+                 this.historyList.splice(index,1);
+                 //调用history的删除方法，还没实现
+                },
+            buildLink:function(str){
+                console.log(str);
+                return "//search.bilibili.com/all?keyword="+str;
+            },
+            getHint:function(){
+                if(this.christmas.trim()=="") {
+                    this.hintShow=false;
+                    this.show=true;
+                    return;
+                };
+                console.log("change triggered");
+                this.show=false;
+                var arrLen = this.hintFileter(this.hintList,this.christmas).length;
+                console.log(arrLen+" length is ");
+                this.hintShow=arrLen>0;
+            },
+            hintFileter:function(arr,key){
+                return arr.filter(function(curVal,index,arr){
+                    return curVal['title'].indexOf(key)!=-1;
+                })
             }
           }
        });
@@ -530,10 +592,44 @@ window.onload=function(){
                 <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >移动端</a></li>
                </ul>
             </div>
-            <div class="right-header-upload">
+            <div class="right-header-upload" v-on:mouseover.capture="showuploadpanel" v-on:mouseout.capture="hideuploadpanel">
                <a href="http:upload" target="_blank" class="upload-link">
                    投稿
                </a> 
+               <transition name="game-panel">
+               <ul class="upload-item" v-show="votepanelshow">
+                    <li>
+                      <a href="" target="_blank" >
+                          <i class="bili-icon rect art"></i>
+                          <span>专栏投稿</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="" target="_blank" >
+                          <i class="bili-icon rect audio"></i>
+                          <span>音频投稿</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="" target="_blank" >
+                          <i class="bili-icon rect video"></i>
+                          <span>视频投稿</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="" target="_blank" >
+                          <i class="bili-icon rect vote"></i>
+                          <span>投稿管理</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="" target="_blank" >
+                          <i class="bili-icon rect creation"></i>
+                          <span>创作中心</span>
+                      </a>
+                    </li>
+                 </ul>
+                </transition>
             </div>
             <div class="user-menu">
                 <div class="user-menu-first"><a href="http" target="_blank"  ><img class="user-pic" src="user.jpg" /></a></div>
@@ -543,7 +639,30 @@ window.onload=function(){
        </div>
        <div class="backimglink">
            <div class="bili-wrapper head-content">
-              
+                <a href="//www.bilibili.com" class="head-logo" ></a> 
+                <div class="search">
+                        <a href="//www.bilibili.com/ranking?spm_id_from=333.334.banner_link.1" target="_blank" class="link-ranking"><span>排行榜</span></a>
+                       <div class="searchPanel"> <input v-on:click.stop="" v-on:focus.stop="showHistory"  v-on:input="getHint" id="searchKeyword" autocomplete="off" v-model="christmas" type="text" placeholder="老铁，往门里踢啊" class="searchInput" /><button  v-on:click="doSearch" class="submitButton"></button>
+                        <ul v-if="show" class="showstatus">
+                            <li class="list-tip" ><div class="base-line">
+                            <span class="history-tip">
+                            历史记录
+                            </span>
+                            </div></li>
+                            <transition-group name="list" tag="li">
+                            <li class="list-item" is="history-list" v-for="(item,index) in historyList" v-bind:history="item" v-bind:key="item.title"  v-bind:link="buildLink(item.title)" v-bind:cancel="showDelete" v-on:remove="deleteHistory(index)"></li>
+                        </transition-group>    
+                        </ul> 
+                            <ul v-if="hintShow" class="showstatus">
+                                <li class="list-tip" ><div class="base-line">
+                                <span class="history-tip">
+                                关键词
+                                </span>
+                                </div></li>
+                                <li class="list-item" is="history-list" v-for="(item,index) in hintFileter(hintList,christmas)" v-bind:history="item" v-bind:link="buildLink(item.title)" v-bind:cancel="hideDelete" v-on:remove="deleteHistory(index)"></li>
+                                </ul> 
+                        </div>
+                </div>
            </div> 
        </div>
       </div>

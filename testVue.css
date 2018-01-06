@@ -825,10 +825,95 @@ top:13px;
     background-position: center -10px;
     z-index:100;
 }
+/*css for bilibili logo and rank search.*/
 .head-content{
  position:relative;
  height:170px;
 }
+.head-logo{
+    position: absolute;
+    width:220px;
+    height:105px;
+    left:24px;
+    top:55px;
+    background: transparent no-repeat 0;
+    z-index: 10;
+    background-image: url("bilibili_logo.webp");
+}
+.search{
+    position: absolute;
+    bottom:20px;
+    right:0;
+    width:268px;
+    height:32px;
+    padding: 2px 2px 2px 72px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+.link-ranking{
+    position: absolute;
+    left: 2px;
+    top:2px;
+    height:32px;
+    line-height: 32px;
+    width:68px;
+    background-color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    color:red;
+    opacity: 0.8;
+}
+.link-ranking:hover{
+    opacity: 1;
+}
+.link-ranking span{
+    padding-left:26px;
+    width:32px;
+    background: url("backgroundIcon.png") -659px -665px no-repeat;
+}
+.searchPanel{
+    position:relative;
+    width:268px;
+    height:32px;
+    background-color: white;
+    border-radius: 4px;
+    opacity: 0.8;
+}
+.searchPanel:hover{
+    opacity: 1.0;
+}
+.searchInput{
+    position: relative;
+    width:200px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+    overflow: hidden;
+    padding: 0 12px;
+    outline: none;
+    border:none;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    display: inline-block;
+}
+.submitButton{
+    
+    position: relative;
+    background: url("backgroundIcon.png") -653px -720px;
+    width:40px;
+    height:32px;
+    display: inline-block;
+    outline: none;
+    border:none;
+    vertical-align: middle;
+    padding:0;
+    cursor:pointer;
+    top:-3px;
+}
+.submitButton:hover{
+    background: url("backgroundIcon.png") -718px -720px;
+}
+
 /*css for game panel.*/
 .game-panel{
     position: absolute;
@@ -976,8 +1061,10 @@ top:13px;
     padding:0;
     display:block;
     position:absolute;
-    top:400px;
+    top:42px;
+    right:0;
     list-style: none;
+    width:360px;
 }
 .upload-item li{
     float:left;
@@ -986,12 +1073,12 @@ top:13px;
     cursor:pointer;
     width:72px;
     height:64px;
-    background-color:blue;
+    background-color:white;
     text-align: center;
     font-size: 12px;
 }
 .upload-item li:hover{
-    background-color: white;
+    background-color:lightcyan;
 }
 .upload-item li:hover .rect{
     transform: translateY(-2px);
@@ -1076,6 +1163,7 @@ top:13px;
     line-height: 20px;
     font-size: 14px;
     color:palevioletred;
+    text-align: left;
 }
 .hot-live{
     position: relative;
