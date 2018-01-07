@@ -1401,19 +1401,46 @@ padding:10px 20px;
 .video-container{
     position:absolute;
     width:160px;
-    height:100px;
+    height:140px;
     top:400px;
     left:600px;
     border-radius: 6px;
     overflow: hidden;
 }
 .video-container img{
-    width:100%;
-    height:100%;
-   
+    width:160px;
+    height:100px;
+    border-radius: 6px;
 }
-.video-container:hover .movable-pic-container,.video-container:hover .later-watch{
+.video-container:hover .movable-pic-container,.video-container:hover .later-watch,.video-container:hover .duration{
     display:block;
+}
+.duration{
+    display:none;
+    position:absolute;
+    left:5px;
+    bottom:2px;
+    color:white;
+    font-size: 10px;
+}
+.video-description{
+    position: absolute;
+    display:block;
+    margin:0;
+    padding:0;
+    left:0;
+    top:105px;
+    width:160px;
+    font-size: 12px;
+    line-height: 15px;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color:black;
+}
+.video-container:hover .video-description{
+    color:#00a1d6;
 }
 
 /*css for text vue component*/
@@ -1429,6 +1456,83 @@ padding:10px 20px;
     left:0px;
     top:0;
 }
+
+/*css for advocate*/
+
+.left-video-container{
+    position:relative;
+    left:0;
+    height:200px;
+    overflow:hidden;
+}
+.right-column{
+    float:right;
+    width:260px;
+    height:200px;
+    margin:0;
+}
+.on-line-info{
+    width:260px;
+    height:40px;
+    background-color: #e5e9ef;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+.on-line-number, .on-line-vote{
+    position:relative;
+    height:16px;
+    width:128px;
+    float:left;
+    top:12px;
+    line-height: 16px;
+    font-size: 12px;
+     text-align: center;
+     margin:auto 0;
+     color:black;
+}
+.on-line-number:hover, .on-line-vote:hover{
+    color:#00a1d6;
+}
+.on-line-number{
+    border-right: 1px solid grey;
+}
+.right-column img{
+    width:260px;
+    height:150px;
+    border-radius: 6px;
+}
+.advocate-container{
+    position:relative;
+    display:inline-block;
+    margin-right:20px;
+    left:0;
+    top:0;
+}
+.header-left-video{
+    position:relative;
+    height:50px;
+}
+.content-left-video{
+    position:left;
+    height:140px;
+    overflow:hidden;
+}
+.advocate{
+    width:40px;
+    height:40px;
+    background-position: -141px -75px;
+    display:inline-block;
+    vertical-align: middle;
+    margin-top:-15px;
+}
+.header-left-video span{
+    font-size: 27px;
+    display:inline-block;
+    height:40px;
+    line-height: 40px;
+    
+}
+
 
 @media screen and (max-width: 1400px){
     .bili-wrapper{

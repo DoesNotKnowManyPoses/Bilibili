@@ -17,9 +17,11 @@
         </div>\
         <div class="movable-pic" :style="[bgposition,backgroundImage]">\
         </div>\
-        </div>\
         <div class="later-watch">\
         </div>\
+        <span class="duration">{{duration}}</span>\
+        </div>\
+        <p class="video-description">{{description}}</p>\
         </a>\
         </div>\
         ',
@@ -48,6 +50,8 @@
                startTop:0,
                width:160,
                height:90,
+               description:this.parameterObject.desc,
+               duration:this.parameterObject.duration,
                hreflink:this.parameterObject.hreflink,
                num:this.parameterObject.num,
               // num:48,
@@ -188,7 +192,9 @@
             srclink:'movablevideo.webp',
             imgsrc:'movablepic2.webp',
             bulletURL:"",
-            hreflink:""
+            hreflink:"",
+            desc:"你知道我是谁么？我可是天选之子",
+            duration:"4.37"
             },
             firstExample:"first-example",
                left:0,
