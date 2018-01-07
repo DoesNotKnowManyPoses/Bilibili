@@ -2,10 +2,21 @@
 <html>
     <head>
     <meta charset="utf-8"/>
-    <title>Test VUE Component</title>    
+    <link rel="shortcut icon" href="https://static.hdslb.com/images/favicon.ico">
+    <title>哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>    
     <link rel="stylesheet" type="text/css" href="testVue.css" />
     <script src="vue.js" ></script>
+    <script src="SearchCookie.js"></script>
     <script>
+    Vue.component('history-list', {
+  template: '\
+    <li>\
+     <a class="search-link-style" v-bind:href="link" target="_blank"> {{ history.title }} </a>\
+      <div v-if="cancel" class="cancel" v-on:click.stop="$emit(\'remove\')"></div>\
+    </li>\
+  ',
+  props: ['history','link','cancel']
+});
 //子组件的onmouseover onmouseout如果不阻止冒泡，那么对于父组件的onmouseover  onmouseout有啥影响。比如在很多子组件中触发了很多次的onmouseout，但是鼠标在这个过程中一直在父组件的内容里面，那么onmouseout的这个事件会被接收到么？
     Vue.component('nested-list',{
         template:'\
@@ -258,6 +269,7 @@ var data={
     gifsrc:"animation.gif"
 }
 window.onload=function(){
+    var history = new History("history");
     var gameVue = new Vue({
            el:"#header",
            data:{
@@ -309,9 +321,11 @@ window.onload=function(){
             //for search history and hint
             doSearch:function(){
                 if(this.christmas){
+                    console.log("search keyword is "+this.christmas);
+                    console.log(history);
                     history.addCookie(this.christmas);
                     this.historyList = history.getHistoryList();
-                    parent.location.href="//search.bilibili.com/all?keyword="+this.christmas;
+                    //parent.location.href="https://search.bilibili.com/all?keyword="+this.christmas;
                   }
   
             },
@@ -319,8 +333,10 @@ window.onload=function(){
              if(this.christmas) return;
               this.historyList =  history.getHistoryList();
               console.log(this.historyList);
-              if(this.historyList.length<1) return;
-              this.show=true;
+              if(this.historyList&&this.historyList.length>0){
+                this.show=true;
+              }
+              
             },
             hideHistory:function(event){
                 if(event){
@@ -340,7 +356,9 @@ window.onload=function(){
             getHint:function(){
                 if(this.christmas.trim()=="") {
                     this.hintShow=false;
-                    this.show=true;
+                    if(this.historyList&&this.historyList.length>0){
+                        this.show=true;
+                    }
                     return;
                 };
                 console.log("change triggered");
@@ -526,9 +544,9 @@ window.onload=function(){
                         <i class="bili-icon homeicon "></i>
                         主站</a></li>
                 <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" >画友</a></li>
-                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" v-on:mouseover="showGamePanel" v-on:mouseout="hideGamePanel">游戏中心</a>
+                <li class="left-header-item"><a href="htt" class="left-header-link" target="_blank" title="" v-on:mouseover.capture="showGamePanel" v-on:mouseout.capture="hideGamePanel">游戏中心</a>
                     <transition name="game-panel">
-                    <div  class="game-panel" v-show="gamepanelshow" v-on:mouseover="showGamePanel" v-on:mouseout="hideGamePanel">
+                    <div  class="game-panel" v-show="gamepanelshow" v-on:mouseover="showGamePanel" v-on:mouseout="hideGamePanel" >
                        
                         <div class="left-game-panel " >
                              <a :href="largeGame.hreflink" class="leftup-game-panel" target="_blank" >

@@ -18,7 +18,7 @@ a{
 #titles{
     position: relative;
     height:59px;
-    z-index:2;
+    z-index:6;
     margin-top:4px;
 }
 .horizontal-list{
@@ -27,6 +27,7 @@ a{
     width:40px;
     list-style: none;
     margin-right: 18px;
+    z-index:100;
 }
 .homelink{
     text-decoration: none;
@@ -94,7 +95,7 @@ a{
  background-color:white;
  display: none;
  border-radius: 6px;
- z-index:10;
+ z-index:101;
 }
 
 .horizontal-list-container{
@@ -913,6 +914,86 @@ top:13px;
 .submitButton:hover{
     background: url("backgroundIcon.png") -718px -720px;
 }
+/*搜索历史专用CSS */
+
+.showstatus{
+    position:absolute;
+    left:0;
+    top:34px;
+    list-style-type:none;
+    background-color:white;
+    padding:0 14px;
+    border-radius: 4px;
+  }
+  .list-tip{
+    position:relative;
+    line-height:30px;
+    width:240px;
+    word-wrap:break-word;
+  }
+  .list-item{
+    position:relative;
+    line-height:30px;
+    width:240px;
+    word-wrap:break-word;
+  }
+  .base-line{
+    position:relative;
+    border-top:1px solid grey;
+    height:20px;
+    position:relative;
+    width:100%;
+    margin-top:10px;
+  
+  }
+  .history-tip{
+    position:relative;
+    line-height:20px;
+    height:20px;
+    background-color:white;
+    margin:0 auto;
+    text-align:center;
+    bottom:10px;
+    padding:0 10px;
+    display:block;
+    width:70px;
+    font-size:12px;
+    color:grey;
+  }
+  .list-item:hover{
+    background-color:grey;
+    cursor:pointer;
+  }
+  .search-link-style{
+    text-decoration:none;
+    color:black;
+    position:relative;
+    left:0;
+    width:220px;
+    word-wrap:break-word;
+    display: inline-block;
+    line-height: 20px;
+  }
+  
+  .cancel{
+    background: url(//static.hdslb.com/images/base/icons.png) -461px -530px no-repeat;
+    width:38px;
+    height:28px;
+    position:absolute;
+    right:0;
+    display:inline-block;
+    cursor:pointer;
+  }
+  .cancel:hover{
+    background: url(//static.hdslb.com/images/base/icons.png) -525px -530px no-repeat;
+  }
+  .list-leave-active{
+      transition:all 1s;
+  }
+  .list-leave-to{
+      opacity: 0;
+      transform:translateX(-100px);
+  }
 
 /*css for game panel.*/
 .game-panel{
