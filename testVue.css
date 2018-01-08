@@ -1532,6 +1532,49 @@ padding:10px 20px;
     line-height: 40px;
     
 }
+/*css for side nav where the location of the item can be adjusted */
+#movable-nav{
+position: absolute;
+ right:100px;
+ top:20px;
+}
+#movable-nav ul{
+    list-style: none;
+    position:relative;
+}
+.movable-nat-item{
+    position: relative;
+    margin:0;
+    text-align: center;
+    background-color: aliceblue;
+    width:40px;
+    height:40px;
+    color:black;
+    cursor:pointer;
+    line-height: 40px;
+}
+.movable-nat-item:hover{
+    background-color: aqua;
+}
+.hidden-block{
+    position: absolute;
+    width:40px;
+    height:40px;
+    background-color: aqua;
+    left:0;
+    top:0;
+}
+.mask-block{
+    position:absolute;
+    width:40px;
+    height:280px;
+    top:0;
+    left:0;
+    opacity:0;
+  
+    /*z-index来解决*/
+}
+
 
 
 @media screen and (max-width: 1400px){
