@@ -184,119 +184,161 @@
     //       }
     //    });
       
-       var movableVue = new Vue({
-           el:"#movable",
-           data:{
-            pobject:{
-            num:48,
-            srclink:'movablevideo.webp',
-            imgsrc:'movablepic2.webp',
-            bulletURL:"",
-            hreflink:"",
-            desc:"你知道我是谁么？我可是天选之子",
-            duration:"4.37"
-            },
-            firstExample:"first-example",
-               left:0,
-               top:10,
-               startLeft:0,
-               startTop:0,
-               width:160,
-               height:90,
-               num:41,
-               numPerRow:10,
-               ratio:0,
-               backgroundImage:{
-                background:'url("movablepic.webp") 0 0 no-repeat'
-               },
-               bgposition:{
-                backgroundPositionX:"0px",
-                backgroundPositionY:"0px"
-               },
-               showMovablePic:false,
-               timeoutList:[],
-               looptimeout:null,
-               timeInterval:null,
-               bulletStyle:[],
-               bullets:['好可爱','小姐姐跳的真好','这么可爱一定是男孩子','笑哭惹','疯狂打call','lllll']
-           },
-           methods:{
+    //    var movableVue = new Vue({
+    //        el:"#movable",
+    //        data:{
+    //         pobject:{
+    //         num:48,
+    //         srclink:'movablevideo.webp',
+    //         imgsrc:'movablepic2.webp',
+    //         bulletURL:"",
+    //         hreflink:"",
+    //         desc:"你知道我是谁么？我可是天选之子",
+    //         duration:"4.37"
+    //         },
+    //         firstExample:"first-example",
+    //            left:0,
+    //            top:10,
+    //            startLeft:0,
+    //            startTop:0,
+    //            width:160,
+    //            height:90,
+    //            num:41,
+    //            numPerRow:10,
+    //            ratio:0,
+    //            backgroundImage:{
+    //             background:'url("movablepic.webp") 0 0 no-repeat'
+    //            },
+    //            bgposition:{
+    //             backgroundPositionX:"0px",
+    //             backgroundPositionY:"0px"
+    //            },
+    //            showMovablePic:false,
+    //            timeoutList:[],
+    //            looptimeout:null,
+    //            timeInterval:null,
+    //            bulletStyle:[],
+    //            bullets:['好可爱','小姐姐跳的真好','这么可爱一定是男孩子','笑哭惹','疯狂打call','lllll']
+    //        },
+    //        methods:{
               
-            startMovable:function(event){
-              this.setNewPosition(event); //根据鼠标的位置，直接定位到对应的背景图片的位置
-              this.showBullet();//弹幕准备发射
+    //         startMovable:function(event){
+    //           this.setNewPosition(event); //根据鼠标的位置，直接定位到对应的背景图片的位置
+    //           this.showBullet();//弹幕准备发射
+    //         },
+    //         move:function(event){
+    //           this.setNewPosition(event); //这个事件只会触发背景图片位置的切换。
+    //         },
+    //         /*根据鼠标的水平位置，设置背景图片的位置，来模拟预览*/
+    //         setNewPosition:function(event){
+    //             var offset=event.offsetX;
+    //             this.startTop=event.offsetY;
+    //             this.ratio = offset*100.0/this.width;
+    //             var sequence = Math.floor(offset*this.num/(this.width+1));
+    //             var sequenceV = Math.floor(sequence/this.numPerRow);
+    //             var sequenceH = sequence%this.numPerRow;
+    //             this.left = 0-sequenceH*this.width;
+    //             this.top = 0- sequenceV*this.height;
+    //             console.log("sequence is "+sequenceH+" "+sequenceV);
+    //             this.bgposition.backgroundPositionX=this.left+"px";
+    //             this.bgposition.backgroundPositionY=this.top+"px";
+    //         },
+    //         /*弹幕第一行还是第二行*/
+    //         isSecondRow:function(index){
+    //             return index%2!=0;
+    //         },
+    //         /**/
+    //         reloadBullets:function(){
+    //            this.timeoutList.forEach(function(timeout){//清除没跑完的setTimeout
+    //                clearTimeout(timeout);
+    //            });
+    //            this.timeoutList=[];                  
+    //            this.bulletStyle.splice(0,this.bulletStyle.length); //清除新设定的目标位置
+    //         },
+    //         /*将已经设置了bulletstyle的timeout保留，还未执行的timeout取消掉*/
+    //         hideMovable:function(){
+    //             var start = this.bulletStyle.length;   
+    //             var end = this.timeoutList.length; 
+    //            for(var i = start;i<end; i ++){
+    //                clearTimeout(this.timeoutList[i]);
+    //            }
+    //            this.timeoutList.splice(start,end-start);
+    //            clearTimeout(this.looptimeout);
+    //         },
+    //         showBullet:function(){
+    //           var bulletList = this.$refs.p;
+    //           var that = this;
+    //           var start = this.bulletStyle.length;
+    //           if(start==bulletList.length&&start>0){//弹幕已经弹完，需要弄一个循环
+    //               this.looptimeout = setTimeout( function(){
+    //                         that.reloadBullets();
+    //                         that.showBullet();
+    //                     },7000);
+    //              return;
+    //           }
+    //           for(var i = start ; i < bulletList.length; i ++){
+    //             this.timeoutList.push(setTimeout(function(index){
+    //                return function(){
+    //                var length = bulletList[index].clientWidth;
+    //                var style={};
+    //                style.left="-"+length+"px";
+    //                style.transition="all 5s linear";
+    //                 that.bulletStyle.push(style);
+    //                 console.log("index is "+index);
+    //                 if(index==bulletList.length-1){
+    //                     that.looptimeout=setTimeout(function(){
+    //                         that.reloadBullets();
+    //                         that.showBullet();
+    //                     },7000);
+    //                 }
+    //                };
+    //             }(i),(i-start)*1000));
+    //           }
+    //         }
+    //        }
+    //    })
+
+    var vueNav = new Vue({
+        el:"#movable-nav",
+        data:{
+           height:40,
+           width:40,
+           show:false,
+           top:0,
+           content:"呵呵",
+           totalHeight:280,
+           zindex:-1,
+           aftermousedown:false,
+           items:['电视','电影','动漫','搞笑','鬼畜','八卦','访谈']
+        },
+        methods:{
+            handlemousedown:function(event,index){
+             this.aftermousedown = true;
+             this.showhiddenblock(event,index);
+             console.log("zindex is "+this.zindex);
+             this.zindex = 3;
+             
             },
-            move:function(event){
-              this.setNewPosition(event); //这个事件只会触发背景图片位置的切换。
+            handlemousemove:function(event,index){
+                if(this.aftermousedown){
+               this.showhiddenblock(event,index);
+                }
+                else{
+                    console.log("mouse not clicked");
+                }
             },
-            /*根据鼠标的水平位置，设置背景图片的位置，来模拟预览*/
-            setNewPosition:function(event){
-                var offset=event.offsetX;
-                this.startTop=event.offsetY;
-                this.ratio = offset*100.0/this.width;
-                var sequence = Math.floor(offset*this.num/(this.width+1));
-                var sequenceV = Math.floor(sequence/this.numPerRow);
-                var sequenceH = sequence%this.numPerRow;
-                this.left = 0-sequenceH*this.width;
-                this.top = 0- sequenceV*this.height;
-                console.log("sequence is "+sequenceH+" "+sequenceV);
-                this.bgposition.backgroundPositionX=this.left+"px";
-                this.bgposition.backgroundPositionY=this.top+"px";
+            handlemouseup:function(event,index){
+              this.show=false;
+              this.zindex = -1;
+              this.aftermousedown = false;
             },
-            /*弹幕第一行还是第二行*/
-            isSecondRow:function(index){
-                return index%2!=0;
-            },
-            /**/
-            reloadBullets:function(){
-               this.timeoutList.forEach(function(timeout){//清除没跑完的setTimeout
-                   clearTimeout(timeout);
-               });
-               this.timeoutList=[];                  
-               this.bulletStyle.splice(0,this.bulletStyle.length); //清除新设定的目标位置
-            },
-            /*将已经设置了bulletstyle的timeout保留，还未执行的timeout取消掉*/
-            hideMovable:function(){
-                var start = this.bulletStyle.length;   
-                var end = this.timeoutList.length; 
-               for(var i = start;i<end; i ++){
-                   clearTimeout(this.timeoutList[i]);
-               }
-               this.timeoutList.splice(start,end-start);
-               clearTimeout(this.looptimeout);
-            },
-            showBullet:function(){
-              var bulletList = this.$refs.p;
-              var that = this;
-              var start = this.bulletStyle.length;
-              if(start==bulletList.length&&start>0){//弹幕已经弹完，需要弄一个循环
-                  this.looptimeout = setTimeout( function(){
-                            that.reloadBullets();
-                            that.showBullet();
-                        },7000);
-                 return;
-              }
-              for(var i = start ; i < bulletList.length; i ++){
-                this.timeoutList.push(setTimeout(function(index){
-                   return function(){
-                   var length = bulletList[index].clientWidth;
-                   var style={};
-                   style.left="-"+length+"px";
-                   style.transition="all 5s linear";
-                    that.bulletStyle.push(style);
-                    console.log("index is "+index);
-                    if(index==bulletList.length-1){
-                        that.looptimeout=setTimeout(function(){
-                            that.reloadBullets();
-                            that.showBullet();
-                        },7000);
-                    }
-                   };
-                }(i),(i-start)*1000));
-              }
+            showhiddenblock:function(event,index){
+             this.top = index*40;
+             this.show = true;
+             console.log(this.top+" "+this.show);
             }
-           }
-       })
+        }
+    });
        }
     </script>
  </head>
@@ -389,7 +431,7 @@
    </ul>
 -->
 
-<div id="movable">
+<!--<div id="movable">
 <div  class="video-container">
 <a href="http" target="_blank" title="">
 <img src="movablevideo.webp" />
@@ -409,7 +451,21 @@
 </div>
 <my-movable :parameter-object="pobject" v-bind:mycontainer="firstExample"  >
 <!--attribute is case-insensitive sad  -->
-</my-movable>
+<!--</my-movable>
+</div> -->
+
+<div id="movable-nav">
+    <ul >
+      <li v-for="(item,index) in items" 
+      v-on:mousedown="handlemousedown($event,index)" v-on:mousemove="handlemousemove($event,index)" v-on:mouseup="handlemouseup($event,index)"
+       class="movable-nat-item">
+         {{item}}
+      </li>  
+    
+    <div class="hidden-block" :style="{top:top+'px'}" v-show="show">{{content}}</div>
+    <div class="mask-block" :style="{'z-index':zindex}" ></div>
+    </ul>
+    
 </div>
  </body>
 </html>
