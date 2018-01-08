@@ -308,34 +308,70 @@
            content:"呵呵",
            totalHeight:280,
            zindex:-1,
+           mousedownpoint:0,
+           starttop:0,
            aftermousedown:false,
            items:['电视','电影','动漫','搞笑','鬼畜','八卦','访谈']
         },
         methods:{
             handlemousedown:function(event,index){
-             this.aftermousedown = true;
              this.showhiddenblock(event,index);
              console.log("zindex is "+this.zindex);
              this.zindex = 3;
-             
+             this.content = this.items[index];
             },
             handlemousemove:function(event,index){
-                if(this.aftermousedown){
-               this.showhiddenblock(event,index);
-                }
-                else{
-                    console.log("mouse not clicked");
-                }
+            //     if(this.aftermousedown){
+            //    this.showhiddenblock(event,index);
+            //     }
+            //     else{
+            //         console.log("mouse not clicked");
+            //     }
             },
             handlemouseup:function(event,index){
-              this.show=false;
-              this.zindex = -1;
-              this.aftermousedown = false;
+
             },
             showhiddenblock:function(event,index){
              this.top = index*40;
              this.show = true;
+             this.mousedownpoint = this.top+event.offsetY;
+             this.starttop = this.top;
              console.log(this.top+" "+this.show);
+            },
+            handlemaskdown:function(event){
+            },
+            handlemaskmove:function(event){
+             var offy = event.offsetY;
+             var direction = this.top > this.starttop;//hehe应该用最终结果的偏移来决定方向，而不是用两次move的偏移来决定方向，因为我先下10 再上5 大体还是往下，但是只看这两次的话，方向是向上的。
+             this.top = this.top+(offy-this.mousedownpoint);
+             this.mousedownpoint = offy;
+             var index = Math.floor(this.top/this.height);
+             console.log(direction);
+             var move = direction? this.top - this.starttop : this.starttop - this.top;//hehe如果是往上移动，那么偏移应该是指相比于上一个格子的底部，而不是顶部
+             if((direction&&index==this.items.lenght-1))
+             return;
+             if(move>=25){
+                if(direction){
+                    var current = this.items[index];
+                    var next = this.items[index+1];
+                    this.items.splice(index,2,next,current);
+                    this.starttop = this.starttop+this.height;//hehe换了位置以后要更新新的起点位置.
+                }
+                else{
+                    var current = this.items[index]; //hehe这里求得的index应该是上一个的index，因为top移动到了目标头上
+                    var next = this.items[index+1];
+                    this.items.splice(index,2,next,current);
+                    this.starttop = this.starttop - this.height;
+                }
+                console.log("index "+index+" direction "+direction+" move "+move+" top "+this.top);
+             }
+            },
+            handlemaskup:function(event){
+             this.show = false;
+             this.zindex = -1;
+            },
+            notselect:function(){
+                return false;
             }
         }
     });
@@ -454,16 +490,16 @@
 <!--</my-movable>
 </div> -->
 
-<div id="movable-nav">
-    <ul >
-      <li v-for="(item,index) in items" 
-      v-on:mousedown="handlemousedown($event,index)" v-on:mousemove="handlemousemove($event,index)" v-on:mouseup="handlemouseup($event,index)"
-       class="movable-nat-item">
+<div id="movable-nav" v-on:selectstart="notselect">
+    <ul  v-on:selectstart="notselect">
+      <li  v-for="(item,index) in items" 
+      v-on:mousedown="handlemousedown($event,index)"
+       class="movable-nat-item"  >
          {{item}}
       </li>  
     
-    <div class="hidden-block" :style="{top:top+'px'}" v-show="show">{{content}}</div>
-    <div class="mask-block" :style="{'z-index':zindex}" ></div>
+    <div class="hidden-block" :style="{top:top+'px'}" v-show="show" v-on:selectstart="notselect">{{content}}</div>
+    <div class="mask-block" :style="{'z-index':zindex}"  v-on:mousemove="handlemaskmove($event)" v-on:mouseup="handlemaskup($event)"></div>
     </ul>
     
 </div>
