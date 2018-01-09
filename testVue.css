@@ -1537,6 +1537,10 @@ padding:10px 20px;
 position: absolute;
  right:100px;
  top:20px;
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
 }
 #movable-nav ul{
     list-style: none;
@@ -1546,32 +1550,36 @@ position: absolute;
     position: relative;
     margin:0;
     text-align: center;
-    background-color: aliceblue;
+    background-color: #f6f9fa;
     width:40px;
-    height:40px;
+    height:32px;
+    font-size: 10px;
     color:black;
     cursor:pointer;
-    line-height: 40px;
+    line-height: 32px;
+    transition: background-color .3s,color .3s;
 }
 .movable-nat-item:hover{
-    background-color: aqua;
+    background-color: #00a1d6;
+    color:white;
 }
 .hidden-block{
     position: absolute;
     width:40px;
-    height:40px;
-    line-height:40px;
+    height:32px;
+    line-height:32px;
+    font-size:10px;
     text-align: center;
-    background-color: aqua;
+    background-color: #00a1d6;
     left:0;
     top:0;
 }
 .mask-block{
     position:absolute;
     width:40px;
-    height:280px;
     top:0;
-    left:0;
+    height:544px;
+    left:0px;
     opacity:0;
   
     /*z-index来解决*/
