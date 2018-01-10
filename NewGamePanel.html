@@ -298,6 +298,17 @@
     //        }
     //    })
 
+    window.onscroll=function(e){
+        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        if(scrollTop>100){
+            vueNav.topNav = 0;
+        }
+        else{
+            vueNav.topNav = 150;
+        }
+         vueNav.changeSelecte(scrollTop);
+    }
+
     var vueNav = new Vue({
         el:"#movable-nav",
         data:{
@@ -310,31 +321,38 @@
            zindex:-1,
            mousedownpoint:0,
            starttop:0,
+           topNav:150,
+           isSelected:[],
            aftermousedown:false,
-           items:['游戏','国创','番剧','直播','舞蹈','生活','时尚','鬼畜','动画','电影','娱乐','影视','TV剧','纪录片','音乐','科技','广告']
+           editable:false,
+           items:['游戏','国创','番剧','直播','舞蹈','生活','时尚','鬼畜','动画','电影','娱乐','影视','TV剧','纪录片','音乐','科技','广告'],
+           highItems:[120,240,360,240,120,160,180,200,300,400,500,100,200,300,500,200,100]
         },
         created:function(){
            this.totalHeight = this.height * this.items.length;
            console.log("total height is "+this.totalHeight);
+           for(var i = 0 ; i < this.items.length; i ++){
+               this.isSelected.push(false);
+           }
         },
         methods:{
             handlemousedown:function(event,index){
+             if(this.editable){//hehe只有可编辑状态下才需要后续的记录
              this.showhiddenblock(event,index);
              this.zindex = 3;
              this.content = this.items[index];
+             }
             },
             handlemouseup:function(event,index){
-               console.log("original mouse up");
             },
             showhiddenblock:function(event,index){
              this.top = index*this.height;
              this.show = true;
              this.mousedownpoint = this.top+event.offsetY;
              this.starttop = this.top;
-             console.log(this.top+" "+this.show);
             },
             handlemaskdown:function(event){
-                console.log("mask down");
+    
             },
             handlemaskmove:function(event){
              var offy = event.offsetY;
@@ -352,14 +370,16 @@
                     var next = this.items[index+1];
                     this.items.splice(index,2,next,current);
                     this.starttop = this.starttop+this.height;//hehe换了位置以后要更新新的起点位置.
+                   // console.log("change from "+(index+1)+" to "+index);
                 }
                 else{
                     var current = this.items[index]; //hehe这里求得的index应该是上一个的index，因为top移动到了目标头上
                     var next = this.items[index+1];
                     this.items.splice(index,2,next,current);
                     this.starttop = this.starttop - this.height;
+                   // console.log("change from "+(index)+" to "+(index+1));
                 }
-                console.log("index "+index+" direction "+direction+" move "+move+" top "+this.top);
+               //console.log("index "+index+" direction "+direction+" move "+move+" top "+this.top);
              }
             },
             handlemaskup:function(event){
@@ -368,13 +388,42 @@
             },
             notselect:function(){
                 return false;
+            },
+            changeSelecte:function(position){
+                console.log("received top is "+position);
+                var total = 0;
+                this.isSelected=[];
+              for(var i = 0 ; i < this.highItems.length; i ++){
+                var current = this.highItems[i];
+                if(total<=position&&current+total>position){
+                    this.isSelected.push(true);
+                }
+                else{
+                    this.isSelected.push(false);
+                }
+                console.log("total is "+total);
+                console.log("current is "+current);
+                total = total + current;
+              }
+              console.log(this.isSelected);
+            },
+            scrollTarget:function(index){
+                if(this.editable) return;
+                var target = 0 ;
+                for(var i = 0 ; i < index ; i ++){
+                    target+=this.highItems[i];
+                }
+                window.scrollTo(0,target);
+            },
+            setEditable:function(){
+                this.editable = !this.editable;
             }
         }
     });
        }
     </script>
  </head>
- <body>
+ <body >
    <!--<div id="game" class="game-panel">
        <div class="left-game-panel " v-show="gamepanelshow">
             <a :href="largeGame.hreflink" class="leftup-game-panel" target="_blank" >
@@ -485,19 +534,32 @@
 <!--attribute is case-insensitive sad  -->
 <!--</my-movable>
 </div> -->
-
-<div id="movable-nav" v-on:selectstart="notselect">
-    <ul  v-on:selectstart="notselect">
+<img src="editguide.png" />
+<div id="movable-nav" :class="{'edit-state':editable}">
+    <ul id="fixed-nav" :style="{top: topNav+'px' }">
+      <div class='edit-guide' :class="{'edit-open':editable}">
+          <img src="editguide.png" />
+      </div>
       <li  v-for="(item,index) in items" 
-      v-on:mousedown="handlemousedown($event,index)"
-       class="movable-nat-item"  >
+      v-on:mousedown="handlemousedown($event,index)"   v-on:click="scrollTarget(index)"
+       class="movable-nat-item" :class="{'movable-selected':isSelected[index]}"  >
          {{item}}
       </li>  
-    
+    <div class="movable-nat-item customize" v-on:click="setEditable" >
+        <i class="bili-icon updownarrow">
+        </i>
+        排序
+    </div>
+    <div class="hinge">
+
+    </div>
+    <div class="bili-icon back-top">
+
+    </div>
     <div class="hidden-block" :style="{top:top+'px'}" v-show="show" >{{content}}</div>
     <div class="mask-block" :style="{ height:totalHeight+'px' , 'z-index':zindex}"  v-on:mousemove="handlemaskmove($event)" v-on:mouseup="handlemaskup($event)"></div>
     </ul>
-    
+ 
 </div>
  </body>
 </html>
