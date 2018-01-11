@@ -325,6 +325,9 @@
            isSelected:[],
            aftermousedown:false,
            editable:false,
+           timer:null,
+           bgx:0,
+           tipshow:false,
            items:['游戏','国创','番剧','直播','舞蹈','生活','时尚','鬼畜','动画','电影','娱乐','影视','TV剧','纪录片','音乐','科技','广告'],
            highItems:[120,240,360,240,120,160,180,200,300,400,500,100,200,300,500,200,100]
         },
@@ -341,6 +344,7 @@
              this.showhiddenblock(event,index);
              this.zindex = 3;
              this.content = this.items[index];
+             this.aftermousedown = true;
              }
             },
             handlemouseup:function(event,index){
@@ -355,6 +359,7 @@
     
             },
             handlemaskmove:function(event){
+             if(!this.aftermousedown) return;
              var offy = event.offsetY;
              this.top = this.top+(offy-this.mousedownpoint);
              this.mousedownpoint = offy;
@@ -383,6 +388,7 @@
              }
             },
             handlemaskup:function(event){
+             this.aftermousedown = false;
              this.show = false;
              this.zindex = -1;
             },
@@ -417,7 +423,36 @@
             },
             setEditable:function(){
                 this.editable = !this.editable;
+            },
+            srollToTop:function(){
+                window.scrollTo(0,0);
+            },
+            standby:function(){
+             clearInterval(this.timer);
+             var count = 0 ;
+             var that = this;
+             this.tipshow = true;
+             this.timer=setInterval(function(){
+                that.bgx = 0- count*80;
+                count++;
+                if(count>=16){
+                    count= count -6;
+                }
+             },90);
+            },
+            backtosleep:function(){
+            clearInterval(this.timer);
+            this.tipshow = false;
+            var that = this;
+            this.timer = setInterval(function(){
+              that.bgx=that.bgx+80;
+              if(that.bgx>=0){
+                  clearInterval(that.timer);
+                  
+              }
+            },90);
             }
+
         }
     });
        }
@@ -553,11 +588,22 @@
     <div class="hinge">
 
     </div>
-    <div class="bili-icon back-top">
+    <div class="bili-icon back-top" v-on:click="srollToTop">
 
     </div>
     <div class="hidden-block" :style="{top:top+'px'}" v-show="show" >{{content}}</div>
     <div class="mask-block" :style="{ height:totalHeight+'px' , 'z-index':zindex}"  v-on:mousemove="handlemaskmove($event)" v-on:mouseup="handlemaskup($event)"></div>
+    <div class="app-download" >
+        <a href="https://app.bilibili.com/?channel=home_recommend" target="_blank">
+            <div class="download-icon" :style="{'background-position-x':bgx+'px'}" v-on:mouseover="standby" v-on:mouseout="backtosleep">
+            </div>
+            <transition name="tip-show">
+                <div class="download-tip" v-show="tipshow">
+        
+                </div>
+            </transition>
+        </a>
+    </div>
     </ul>
  
 </div>
