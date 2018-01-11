@@ -300,15 +300,11 @@
 
     window.onscroll=function(e){
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-        if(scrollTop>100){
-            vueNav.topNav = 0;
-        }
-        else{
-            vueNav.topNav = 150;
-        }
+        var availableHeight = document.documentElement.clientHeight ;
+         vueNav.adjustTop(availableHeight,scrollTop);
          vueNav.changeSelecte(scrollTop);
     }
-
+    var sizelist = [120,240,360,240,120,160,180,200,300,400,500,100,200,300,500,200,100];
     var vueNav = new Vue({
         el:"#movable-nav",
         data:{
@@ -327,9 +323,10 @@
            editable:false,
            timer:null,
            bgx:0,
+           navHeight:768,
            tipshow:false,
            items:['游戏','国创','番剧','直播','舞蹈','生活','时尚','鬼畜','动画','电影','娱乐','影视','TV剧','纪录片','音乐','科技','广告'],
-           highItems:[120,240,360,240,120,160,180,200,300,400,500,100,200,300,500,200,100]
+           highItems:sizelist
         },
         created:function(){
            this.totalHeight = this.height * this.items.length;
@@ -396,7 +393,7 @@
                 return false;
             },
             changeSelecte:function(position){
-                console.log("received top is "+position);
+               // console.log("received top is "+position);
                 var total = 0;
                 this.isSelected=[];
               for(var i = 0 ; i < this.highItems.length; i ++){
@@ -407,8 +404,8 @@
                 else{
                     this.isSelected.push(false);
                 }
-                console.log("total is "+total);
-                console.log("current is "+current);
+                // console.log("total is "+total);
+                // console.log("current is "+current);
                 total = total + current;
               }
               console.log(this.isSelected);
@@ -451,10 +448,29 @@
                   
               }
             },90);
+            },
+            adjustTop:function(height,scrollTop){
+                console.log("height is "+height);
+                if(scrollTop==0){
+                    this.topNav="150";
+                    return;
+                }
+              if(height<=this.navHeight){
+                  this.topNav = 0;
+              }
+              else{
+                  this.topNav = Math.floor((height-this.navHeight)/2);
+              }
             }
 
         }
     });
+    var blockVue = new Vue({
+        el:"#many-blocks",
+        data:{
+            items:sizelist
+        }
+    })
        }
     </script>
  </head>
@@ -569,9 +585,8 @@
 <!--attribute is case-insensitive sad  -->
 <!--</my-movable>
 </div> -->
-<img src="editguide.png" />
-<div id="movable-nav" :class="{'edit-state':editable}">
-    <ul id="fixed-nav" :style="{top: topNav+'px' }">
+<div id="movable-nav" :class="{'edit-state':editable}" :style="{top:topNav+'px'}">
+    <ul id="fixed-nav" >
       <div class='edit-guide' :class="{'edit-open':editable}">
           <img src="editguide.png" />
       </div>
@@ -606,6 +621,11 @@
     </div>
     </ul>
  
+</div>
+<div id="many-blocks" class="bili-wrapper">
+ <div v-for="(item,index) in items" class="test-block" :style="{height:item+'px'}">
+    
+ </div>
 </div>
  </body>
 </html>
