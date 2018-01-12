@@ -1703,9 +1703,75 @@ top:0px;
     border:1px solid green;
     margin-bottom: 2px;
 }
-
-
-
+/*css for a series of modules which can be moved according to the nav item*/
+#module-game{
+   height:300px;
+   background-color: #00a1d6;
+}
+#module-national{
+    height:400px;
+    background-color: #99a2aa;
+}
+#module-series{
+    height:500px;
+    background-color: #f25d8e;
+}
+#module-live{
+    height:400px;
+    background-color: blue;
+}
+#module-dance{
+    height:300px;
+    background-color: blanchedalmond;
+}
+#module-life{
+    height:500px;
+    background-color: crimson;
+}
+#module-fashion{
+    height:700px;
+    background-color: darkolivegreen;
+}
+#module-demon{
+    height:200px;
+    background-color: coral;
+}
+#module-animation{
+    height: 400px;
+    background-color: darkgreen;
+}
+#module-film{
+    height: 600px;
+    background-color: darkorchid;
+}
+#module-entertain{
+    height: 300px;
+    background-color: yellow;
+}
+#module-ft{
+    height: 500px;
+    background-color: violet;
+}
+#module-tv{
+    height: 200px;
+    background-color: tomato;
+}
+#module-doc{
+    height: 700px;
+    background-color: teal;
+}
+#module-music{
+    height: 400px;
+    background-color: steelblue;
+}
+#module-science{
+    height: 500px;
+    background-color: snow;
+}
+#module-adv{
+    height:300px;
+    background-color: slategray;
+}
 @media screen and (max-width: 1400px){
     .bili-wrapper{
         width:980px;

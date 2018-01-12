@@ -3,6 +3,7 @@
  <head>
     <link rel="stylesheet" type="text/css" href="testVue.css" />
     <script src="vue.js" ></script>
+    <script src="jquery-3.2.1.js" ></script>
     <meta charset="utf-8" />
     <script>
         Vue.component("my-movable",{
@@ -297,6 +298,29 @@
     //         }
     //        }
     //    })
+    function switchElement(source,target){
+        console.log("received index are "+source+" "+target);
+        var sourceid="#"+idlist[source];
+        var targetid= "#"+idlist[target];
+        if(source<target){
+        $(sourceid).insertAfter(targetid);
+        }
+        else if(source>target){
+        $(sourceid).insertBefore(targetid);
+        }
+        else{
+            return;
+        }
+
+        var idtmp = idlist[source];
+        idlist.splice(source, 1);
+        idlist.splice(target, 0, idtmp);
+
+        var sizetmp = sizelist[source];
+        sizelist.splice(source, 1);
+        sizelist.splice(target, 0, sizetmp);
+       
+    }
 
     window.onscroll=function(e){
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
@@ -304,7 +328,8 @@
          vueNav.adjustTop(availableHeight,scrollTop);
          vueNav.changeSelecte(scrollTop);
     }
-    var sizelist = [120,240,360,240,120,160,180,200,300,400,500,100,200,300,500,200,100];
+    var sizelist = [300,400,500,400,300,500,700,200,400,600,300,500,200,700,400,500,300];
+    var idlist=['module-game','module-national','module-series','module-live','module-dance','module-life','module-fashion','module-demon','module-animation','module-film','module-entertain','module-ft','module-tv','module-doc','module-music','module-science','module-adv']
     var vueNav = new Vue({
         el:"#movable-nav",
         data:{
@@ -323,6 +348,8 @@
            editable:false,
            timer:null,
            bgx:0,
+           startindex:0,
+           targetindex:0,
            navHeight:768,
            tipshow:false,
            items:['游戏','国创','番剧','直播','舞蹈','生活','时尚','鬼畜','动画','电影','娱乐','影视','TV剧','纪录片','音乐','科技','广告'],
@@ -351,6 +378,7 @@
              this.show = true;
              this.mousedownpoint = this.top+event.offsetY;
              this.starttop = this.top;
+             this.startindex = index;
             },
             handlemaskdown:function(event){
     
@@ -388,6 +416,8 @@
              this.aftermousedown = false;
              this.show = false;
              this.zindex = -1;
+             this.targetindex = Math.floor(this.starttop/this.height);
+             switchElement(this.startindex,this.targetindex);
             },
             notselect:function(){
                 return false;
@@ -445,7 +475,7 @@
               that.bgx=that.bgx+80;
               if(that.bgx>=0){
                   clearInterval(that.timer);
-                  
+                 that.bgx = 0;
               }
             },90);
             },
@@ -465,12 +495,12 @@
 
         }
     });
-    var blockVue = new Vue({
-        el:"#many-blocks",
-        data:{
-            items:sizelist
-        }
-    })
+    // var blockVue = new Vue({
+    //     el:"#many-blocks",
+    //     data:{
+    //         items:sizelist
+    //     }
+    // })
        }
     </script>
  </head>
@@ -622,10 +652,61 @@
     </ul>
  
 </div>
-<div id="many-blocks" class="bili-wrapper">
+<!--<div id="many-blocks" class="bili-wrapper">
  <div v-for="(item,index) in items" class="test-block" :style="{height:item+'px'}">
     
  </div>
+</div>-->
+<div id="module-game" class="bili-wrapper">
+    this is module-game
+</div>
+<div id="module-national" class="bili-wrapper">
+    this is module-national
+</div>
+<div id="module-series" class="bili-wrapper">
+    this is module-series
+</div>
+<div id="module-live" class="bili-wrapper">
+    this is module-live
+</div>
+<div id="module-dance" class="bili-wrapper">
+    this is module dance 
+</div>
+<div id="module-life" class="bili-wrapper">
+    this is module life
+</div>
+<div id="module-fashion" class="bili-wrapper">
+    this is moduel-fashion
+</div>
+<div id="module-demon" class="bili-wrapper">
+    this is moduel-demon
+</div>
+<div id="module-animation" class="bili-wrapper">
+    this is module-animation
+</div>
+<div id="module-film" class="bili-wrapper">
+    this is module-film
+</div>
+<div id="module-entertain" class="bili-wrapper">
+    this is module-entertain
+</div>
+<div id="module-ft" class="bili-wrapper">
+    this is moduel-ft
+</div>
+<div id="module-tv" class="bili-wrapper">
+    this is module-tv
+</div>
+<div id="module-doc" class="bili-wrapper">
+    this is module-doc
+</div>
+<div id="module-music" class="bili-wrapper">
+    this is module-music
+</div>
+<div id="module-science" class="bili-wrapper">
+    this is module-science
+</div>
+<div id="module-adv" class="bili-wrapper">
+    this is module-adv
 </div>
  </body>
 </html>
