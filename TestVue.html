@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="testVue.css" />
     <script src="vue.js" ></script>
     <script src="SearchCookie.js"></script>
+    <script src="jquery-3.2.1.js" ></script>
     <script>
     Vue.component('history-list', {
   template: '\
@@ -693,6 +694,266 @@ window.onload=function(){
         advocateContainer:'advocate-container'
         }
     });
+    /*script for side nav bar*/
+    function switchElement(source,target){
+        console.log("received index are "+source+" "+target);
+        var sourceid="#"+idlist[source];
+        var targetid= "#"+idlist[target];
+        if(source<target){
+        $(sourceid).insertAfter(targetid);
+        }
+        else if(source>target){
+        $(sourceid).insertBefore(targetid);
+        }
+        else{
+            return;
+        }
+
+        var idtmp = idlist[source];
+        idlist.splice(source, 1);
+        idlist.splice(target, 0, idtmp);
+
+        var sizetmp = sizelist[source];
+        sizelist.splice(source, 1);
+        sizelist.splice(target, 0, sizetmp);
+       
+    }
+
+    window.onscroll=function(e){
+        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        var availableHeight = document.documentElement.clientHeight ;
+         vueNav.adjustTop(availableHeight,scrollTop);
+         vueNav.changeSelecte(scrollTop);
+         console.log("scrollTop is "+scrollTop);
+    }
+    var sizelist = [300,400,500,400,300,500,700,200,400,600,300,500,200,700,400,500,300];
+    var idlist=['module-game','module-national','module-series','module-live','module-dance','module-life','module-fashion','module-demon','module-animation','module-film','module-entertain','module-ft','module-tv','module-doc','module-music','module-science','module-adv']
+    var vueNav = new Vue({
+        el:"#movable-nav",
+        data:{
+           
+           height:32,
+           width:40,
+           show:false,
+           top:0,
+           content:"呵呵",
+           totalHeight:280,
+           zindex:-1,
+           mousedownpoint:0,
+           starttop:0,
+           topNav:241,
+           isSelected:[],
+           aftermousedown:false,
+           editable:false,
+           timer:null,
+           bgx:0,
+           startindex:0,
+           targetindex:0,
+           navHeight:730,
+           navIndex:1,
+           heightBeforeNav:710,
+           tipshow:false,
+           items:['游戏','国创','番剧','直播','舞蹈','生活','时尚','鬼畜','动画','电影','娱乐','影视','TV剧','纪录片','音乐','科技','广告'],
+           highItems:sizelist
+        },
+        created:function(){
+           this.totalHeight = this.height * this.items.length;
+           console.log("total height is "+this.totalHeight);
+           for(var i = 0 ; i < this.items.length; i ++){
+               this.isSelected.push(false);
+           }
+        },
+        methods:{
+            handlemousedown:function(event,index){
+             if(this.editable){//hehe只有可编辑状态下才需要后续的记录
+             this.showhiddenblock(event,index);
+             this.zindex = 996;
+             this.content = this.items[index];
+             this.aftermousedown = true;
+             }
+            },
+            handlemouseup:function(event,index){
+            },
+            showhiddenblock:function(event,index){
+             this.top = index*this.height;
+             this.show = true;
+             this.mousedownpoint = this.top+event.offsetY;
+             this.starttop = this.top;
+             this.startindex = index;
+            },
+            handlemaskdown:function(event){
+    
+            },
+            handlemaskmove:function(event){
+             if(!this.aftermousedown) return;
+             var offy = event.offsetY;
+             this.top = this.top+(offy-this.mousedownpoint);
+             this.mousedownpoint = offy;
+             var direction = this.top > this.starttop;//hehe应该用最终结果的偏移来决定方向，而不是用两次move的偏移来决定方向，因为我先下10 再上5 大体还是往下，但是只看这两次的话，方向是向上的。
+             var index = Math.floor(this.top/this.height);
+             //console.log(direction);
+             var move = direction? this.top - this.starttop : this.starttop - this.top;//hehe如果是往上移动，那么偏移应该是指相比于上一个格子的底部，而不是顶部
+             if((direction&&index==this.items.lenght-1))
+             return;
+             if(move>=(this.height/2 + 5)){
+                if(direction){
+                    var current = this.items[index];
+                    var next = this.items[index+1];
+                    this.items.splice(index,2,next,current);
+                    this.starttop = this.starttop+this.height;//hehe换了位置以后要更新新的起点位置.
+                   // console.log("change from "+(index+1)+" to "+index);
+                }
+                else{
+                    var current = this.items[index]; //hehe这里求得的index应该是上一个的index，因为top移动到了目标头上
+                    var next = this.items[index+1];
+                    this.items.splice(index,2,next,current);
+                    this.starttop = this.starttop - this.height;
+                   // console.log("change from "+(index)+" to "+(index+1));
+                }
+               //console.log("index "+index+" direction "+direction+" move "+move+" top "+this.top);
+             }
+            },
+            handlemaskup:function(event){
+             this.mouseoffmask();
+            },
+            handlemaskout:function(event){
+             this.mouseoffmask();
+            },
+            mouseoffmask:function(){
+             this.aftermousedown = false;
+             this.show = false;
+             this.zindex = -1;
+             this.targetindex = Math.floor(this.starttop/this.height);
+             switchElement(this.startindex,this.targetindex);
+            },
+            notselect:function(){
+                return false;
+            },
+            changeSelecte:function(position){
+               // console.log("received top is "+position);
+               if(this.editable) return;//
+                position = position - this.heightBeforeNav + 50;//50 valve value
+                var total = 0;
+                this.isSelected=[];
+              for(var i = 0 ; i < this.highItems.length; i ++){
+                var current = this.highItems[i];
+                if(total<=position&&current+total>position){
+                    this.isSelected.push(true);
+                }
+                else{
+                    this.isSelected.push(false);
+                }
+                // console.log("total is "+total);
+                // console.log("current is "+current);
+                total = total + current;
+              }
+              console.log(this.isSelected);
+            },
+            scrollTarget:function(index){
+                if(this.editable) return;
+                var target = this.heightBeforeNav ;
+                for(var i = 0 ; i < index ; i ++){
+                    target+=this.highItems[i];
+                }
+                window.scrollTo(0,target);
+            },
+            setEditable:function(){
+                this.editable = !this.editable;
+                for(var i = 0 ; i < this.isSelected.length; i ++){
+                    if(this.isSelected[i]==true){
+                        this.isSelected.splice(i,1,false);
+                    }
+                }
+            },
+            srollToTop:function(){
+                window.scrollTo(0,0);
+            },
+            standby:function(){
+             clearInterval(this.timer);
+             var count = 0 ;
+             var that = this;
+             this.tipshow = true;
+             this.timer=setInterval(function(){
+                that.bgx = 0- count*80;
+                count++;
+                if(count>=16){
+                    count= count -6;
+                }
+             },90);
+            },
+            backtosleep:function(){
+            clearInterval(this.timer);
+            this.tipshow = false;
+            var that = this;
+            this.timer = setInterval(function(){
+              that.bgx=that.bgx+80;
+              if(that.bgx>=0){
+                  clearInterval(that.timer);
+                 that.bgx = 0;
+              }
+            },90);
+            },
+            adjustTop:function(height,scrollTop){
+                console.log("height is "+height);
+                if(scrollTop==0){
+                    this.topNav="240";
+                    return;
+                }
+                else if(scrollTop<=170){
+                    return;
+                }
+              if(height<=this.navHeight){
+                  this.topNav = 0;
+              }
+              else{
+                  this.topNav = Math.floor((height-this.navHeight)/2);
+              }
+            }
+
+        }
+    });
+    var liveVue = new Vue({
+        el:"#module-live",
+        data:{
+            left:0,
+            width:260,
+            isselected:[],
+            carousel:[],
+            cleft:0,
+            carouselInterval:null,
+            leftArray:[0,-260,-520]
+        },
+        created:function(){
+           this.isselected=[true,false,false];
+           this.carousel=[true,false,false];
+        },
+        methods:{
+            switchTab:function(index){
+                var target = parseInt(index);
+                this.left = (-1)*target*this.width;
+                this.isselected=[false,false,false];
+                this.isselected.splice(target,1,true);
+                console.log(this.isselected);
+                if(this.carouselInterval){
+                    clearInterval(this.carouselInterval);
+                }
+                if(target==2){
+                    var that = this;
+                    this.carouselInterval= setInterval(function(){
+                    that.carousel.unshift(that.carousel.pop());
+                    that.leftArray.push(that.leftArray.shift());
+                    that.cleft=that.leftArray[0];
+                    },3000);
+                }
+            },
+            handlemouseovercarousel:function(index){
+                var target = parseInt(index);
+                this.cleft=(-1)*target*this.width;
+                this.carousel=[false,false,false];
+                this.carousel.splice(target,1,true);
+            }
+        }
+    })
 }
 
     </script>
@@ -1052,6 +1313,151 @@ window.onload=function(){
      
     
      </div>
+     <div id="movable-nav" :class="{'edit-state':editable}" :style="{top:topNav+'px'}">
+        <div class='edit-guide' :class="{'edit-open':editable}">
+            <img src="editguide.png" />
+        </div>
+        <ul id="fixed-nav" >
+     
+          <li  v-for="(item,index) in items" 
+          v-on:mousedown="handlemousedown($event,index)"   v-on:click="scrollTarget(index)"
+           class="movable-nat-item" :class="{'movable-selected':isSelected[index]}"  >
+             {{item}}
+          </li>  
+        <div class="movable-nat-item customize" v-on:click="setEditable" >
+            <i class="bili-icon updownarrow">
+            </i>
+            排序
+        </div>
+        <div class="hidden-block" :style="{top:top+'px'}" v-show="show" >{{content}}</div>
+       </ul>
+       <div class="mask-block" :class="{'mask-block-show':editable}" :style="{ height:totalHeight+'px' ,'z-index':zindex}"  v-on:mousemove="handlemaskmove($event)" v-on:mouseup="handlemaskup($event)" v-on:mouseout="handlemaskout($event)"></div>
+        <div class="hinge">
+        </div>
+        <div class="bili-icon back-top" v-on:click="srollToTop">
+    
+        </div>
+        <div class="app-download" >
+            <a href="https://app.bilibili.com/?channel=home_recommend" target="_blank">
+                <div class="download-icon" :style="{'background-position-x':bgx+'px'}" v-on:mouseover="standby" v-on:mouseout="backtosleep">
+                </div>
+                <transition name="tip-show">
+                    <div class="download-tip" v-show="tipshow">
+            
+                    </div>
+                </transition>
+            </a>
+        </div>
+    </div>
+    <!--below is for all the parts which can be moved referring to the side nav bar-->
+    <div id="module-game" class="bili-wrapper">
+        this is module-game
+    </div>
+    <div id="module-national" class="bili-wrapper">
+        this is module-national
+    </div>
+    <div id="module-series" class="bili-wrapper">
+        this is module-series
+    </div>
+    <div id="module-live" class="bili-wrapper">
+       <div class="right-column-width module-live-height clearfix">
+           <div class='right-column-tab'>
+               <div class='tab-item' v-on:click="switchTab(0)" :class="{'tab-item-selected':isselected[0]}"><span>直播排行</span></div>
+               <div class='tab-item' v-on:click="switchTab(1)" :class="{'tab-item-selected':isselected[1]}"><span>关注的主播</span></div>
+               <div class='tab-item' v-on:click="switchTab(2)" :class="{'tab-item-selected':isselected[2]}"><span>为你推荐</span></div>
+           </div>
+        <div class="right-column-content "  :style="{left:left+'px'}">
+         <div class='module-live-rank'>
+             <div class='module-live-ranknumber'>1</div>
+             <a href="" >
+             <div class="module-live-rankimg">
 
+             </div>
+             <div class='module-live-rankdesc'>
+                 <div class='module-live-rankupdesc'>
+                  <span class="module-live-viewcount clearfix">21.3W</span>  
+                  <span class='module-live-name clearfix'>sdfasdfffffffffffffasdfasdfffffffffasdf</span>     
+                 </div>
+                 <div class='module-live-ranklowdesc'>
+                    hehehehhehehehddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+                 </div>
+             </div>
+            </a>
+         </div>
+        </div>
+        <div class="right-column-content "  :style="{left:left+260+'px'}">
+            没有数据(-_-#)
+        </div>
+        <div class="right-column-content "  :style="{left:left+520+'px'}">
+         <div class="carousel-recommendation" >
+            <div class='carousel-slide' :style="{left:cleft+'px'}">
+              hehe 
+            </div>
+            <div class='carousel-slide' :style="{left:cleft+260+'px'}">
+              hahahah 
+            </div>
+            <div class='carousel-slide':style="{left:cleft+520+'px'}">
+               heheheh 
+            </div>
+            <div class='carousel-desc'>
+
+            </div>
+            <div class='carousel-control-container'>
+                <div class='carousel-control-panel'>
+                    <div class='carousel-control' :class="{'carousel-extend':carousel[0]}" v-on:mouseover="handlemouseovercarousel(0)">
+                    </div>
+                    <div class='carousel-control middle-margin'  :class="{'carousel-extend':carousel[1]}" v-on:mouseover="handlemouseovercarousel(1)">
+                    </div>
+                    <div class='carousel-control'  :class="{'carousel-extend':carousel[2]}" v-on:mouseover="handlemouseovercarousel(2)" >
+                    </div>
+                </div>
+            </div>
+         </div>
+        </div>
+           
+       </div>
+       <div class="left-column-relative module-live-height clearfix">
+
+       </div>
+    </div>
+    <div id="module-dance" class="bili-wrapper">
+        this is module dance 
+    </div>
+    <div id="module-life" class="bili-wrapper">
+        this is module life
+    </div>
+    <div id="module-fashion" class="bili-wrapper">
+        this is moduel-fashion
+    </div>
+    <div id="module-demon" class="bili-wrapper">
+        this is moduel-demon
+    </div>
+    <div id="module-animation" class="bili-wrapper">
+        this is module-animation
+    </div>
+    <div id="module-film" class="bili-wrapper">
+        this is module-film
+    </div>
+    <div id="module-entertain" class="bili-wrapper">
+        this is module-entertain
+    </div>
+    <div id="module-ft" class="bili-wrapper">
+        this is moduel-ft
+    </div>
+    <div id="module-tv" class="bili-wrapper">
+        this is module-tv
+    </div>
+    <div id="module-doc" class="bili-wrapper">
+        this is module-doc
+    </div>
+    <div id="module-music" class="bili-wrapper">
+        this is module-music
+    </div>
+    <div id="module-science" class="bili-wrapper">
+        this is module-science
+    </div>
+    <div id="module-adv" class="bili-wrapper">
+        this is module-adv
+    </div> 
     </body>
 </html>
