@@ -18,6 +18,24 @@
   ',
   props: ['history','link','cancel']
 });
+//vue component for the information of live 
+Vue.component('my-live-ant',{
+  template:'\
+  <div class="module-live-rank">\
+  <div class="module-live-ranknumber" :class="{\'module-live-top\':num<=3}" >{{num}}</div>\
+  <a :href="livelink"> \
+  <img :src="photosrc" class="module-live-rankimg"></img>\
+  <div class="module-live-rankdesc">\
+  <div class="module-live-rankupdesc">\
+  <span class="module-live-viewcount clearfix">{{viewcount}}</span>\
+  <span class="module-live-name clearfix">{{postname}}</span>\
+  </div>\
+  <div class="module-live-ranklowdesc">{{desc}}</div>\
+  </div>\
+  </a>\
+  </div>',
+  props:['num','livelink','photosrc','viewcount','postname','desc', ]
+});
 //提供预览的子组件
 Vue.component("my-movable",{
         template:'\
@@ -424,7 +442,7 @@ var data={
     giflink:"https://search.bilibili.com/all?keyword=INFINI-T%20FORCE&from_source=gif_recommend&spm_id_from=333.334.primary_menu.108",
     gifsrc:"animation.gif"
 }
-window.onload=function(){
+$(document).ready(function(){
     var history = new History("history");
     var gameVue = new Vue({
            el:"#header",
@@ -921,7 +939,10 @@ window.onload=function(){
             carousel:[],
             cleft:0,
             carouselInterval:null,
-            leftArray:[0,-260,-520]
+            leftArray:[0,-260,-520],
+            livelist:[{num:1,livelink:"http",photosrc:"host3.jpg",viewcount:"23W",postname:'一日不见三秋隔',desc:'三秋不见已忘君'},
+            {num:2,livelink:"http",photosrc:"host2.jpg",viewcount:"1.0W",postname:'君住长江头',desc:'妾在长江尾'},
+            {num:3,livelink:"http",photosrc:"host4.jpg",viewcount:"0.3W",postname:'思君不见君',desc:'你就去死吧'}]
         },
         created:function(){
            this.isselected=[true,false,false];
@@ -947,14 +968,23 @@ window.onload=function(){
                 }
             },
             handlemouseovercarousel:function(index){
+                clearInterval(this.carouselInterval);
                 var target = parseInt(index);
                 this.cleft=(-1)*target*this.width;
                 this.carousel=[false,false,false];
                 this.carousel.splice(target,1,true);
+            },
+            handlemouseoutcarousel:function(index){
+                        
+            },
+            //think about the mouseon and mouseout, how to set the start page of the interval.
+            setSlideLoop:function(){
+
             }
+
         }
     })
-}
+});
 
     </script>
    </head>
@@ -1362,17 +1392,17 @@ window.onload=function(){
     <div id="module-live" class="bili-wrapper">
        <div class="right-column-width module-live-height clearfix">
            <div class='right-column-tab'>
-               <div class='tab-item' v-on:click="switchTab(0)" :class="{'tab-item-selected':isselected[0]}"><span>直播排行</span></div>
-               <div class='tab-item' v-on:click="switchTab(1)" :class="{'tab-item-selected':isselected[1]}"><span>关注的主播</span></div>
-               <div class='tab-item' v-on:click="switchTab(2)" :class="{'tab-item-selected':isselected[2]}"><span>为你推荐</span></div>
+               <div class='tab-item' v-on:click="switchTab(0)" :class="{'tab-item-selected':isselected[0]}"><span class='tab-item-desc'>直播排行<div class='module-live-select' v-show="isselected[0]"><div class='module-live-selectimg'></div></div></span></div>
+               <div class='tab-item' v-on:click="switchTab(1)" :class="{'tab-item-selected':isselected[1]}"><span class='tab-item-desc'>关注的主播<div class='module-live-select' v-show="isselected[1]"><div class='module-live-selectimg'></div></div></span></div>
+               <div class='tab-item' v-on:click="switchTab(2)" :class="{'tab-item-selected':isselected[2]}"><span class='tab-item-desc'>为你推荐<div class='module-live-select' v-show="isselected[2]"><div class='module-live-selectimg'></div></div></span></div>
            </div>
         <div class="right-column-content "  :style="{left:left+'px'}">
-         <div class='module-live-rank'>
+        <!-- <div class='module-live-rank'>
              <div class='module-live-ranknumber'>1</div>
              <a href="" >
-             <div class="module-live-rankimg">
-
-             </div>
+             <img class="module-live-rankimg">
+         
+             </img>
              <div class='module-live-rankdesc'>
                  <div class='module-live-rankupdesc'>
                   <span class="module-live-viewcount clearfix">21.3W</span>  
@@ -1383,7 +1413,10 @@ window.onload=function(){
                  </div>
              </div>
             </a>
-         </div>
+         </div> -->
+         <my-live-ant v-for="(item,index) in livelist" v-bind:num="item.num" v-bind:livelink="item.livelink"
+         v-bind:photosrc="item.photosrc" v-bind:viewcount="item.viewcount" v-bind:postname="item.postname" v-bind:desc="item.desc" >
+        </my-live-ant>
         </div>
         <div class="right-column-content "  :style="{left:left+260+'px'}">
             没有数据(-_-#)
