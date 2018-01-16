@@ -1841,13 +1841,15 @@ border: 1px solid #e5e9ef;
     border-bottom: 1px solid #00a1d6;
 }
 .module-live-selectimg{
-    position: relative;;
-    bottom:-2px;
-    width:4px;
-    height:4px;
-    margin:0 auto;
-    border-radius: 2px;
-    background-color: #00a1d6;
+    position: absolute;;
+    left:50%;
+    width:0;
+    height:0;
+    border-left:3px solid transparent;
+    border-right:3px solid transparent;
+    border-bottom: 3px solid #00a1d6;
+    bottom:0;
+    margin-left: -2px;
 }
 .module-live-rank{
     position:relative;
@@ -2015,6 +2017,88 @@ border: 1px solid #e5e9ef;
 }
 
 
+
+/*css for the live tenant , for reuse*/
+.module-live-teant-container{
+    position: relative;
+    width:160px;
+    height:148px;
+    display: inline-block;
+    overflow: hidden;
+    
+}
+.module-live-teant-content{
+    position:relative;
+    width:100%;
+    height:100px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.module-live-teant-content img{
+    display:block;
+    width:100%;
+    height:100%;
+}
+.module-live-teant-image{
+    position:absolute;
+    width:100%;
+    height:100%;
+    opacity:0;
+    background-color: black;
+    top:0;
+    transition:left 1s ease;
+}
+.module-live-teant-image img{
+    position:relative;
+    margin:auto auto;
+}
+.module-live-teant-container:hover .module-live-teant-image{
+    opacity:1;
+}
+.module-live-teant-container:hover .module-live-teant-info{
+    bottom:0;
+}
+.module-live-teant-content-info{
+    position: absolute;
+    bottom:0;
+    width:100%;
+    font-size: 11px;
+    color:white;
+}
+.module-fl{
+    float: left;
+    display: block;
+    line-height: 20px;
+    height:20px;
+}
+.module-fr{
+    float: right;
+    display:block;
+    line-height: 20px;
+    height:20px;
+}
+.module-live-teant-desc{
+    position: relative;
+    margin-top:8px;
+    color:black;
+    line-height: 20px;
+    height:40px;
+    font-size: 10px;
+    width:100%;
+    word-break: break-all;
+    word-wrap:break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.module-live-teant-info{
+    position: absolute;
+    height:20px;
+    line-height: 20px;
+    width:100%;
+    bottom:-20px;
+    transition: bottom 0.3s ease;
+    color:wheat;
+}
 
 
 
