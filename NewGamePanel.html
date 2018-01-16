@@ -6,6 +6,37 @@
     <script src="jquery-3.2.1.js" ></script>
     <meta charset="utf-8" />
     <script>
+        Vue.component('my-live-tenant',{
+            template:' \
+            <div class="module-live-teant-container">\
+            <a :href="ahreflink" target="_blank">\
+            <div class="module-live-teant-content">\
+            <img :src="contentsrc" />\
+            <div class="module-live-teant-content-info">\
+            <span class="module-fl">{{host}}</span><span class="module-fr">{{number}}</span>\
+            </div>\
+            <div class="module-live-teant-image">\
+            <img :src="imagesrc" /></div>\
+            </div>\
+            <div class="module-live-teant-desc">{{desc}}</div>\
+            <div class="module-live-teant-info">{{info}}</div>\
+            </a>\
+            </div>\
+            \
+            ',
+            props:['imagesrc','contentsrc','host','ahreflink','number','desc','info'],
+            // data:function(){
+            //     return {
+            //         imagesrc:'bilibili_recommend2.jpg',
+            //         contentsrc:'bilibili_recommend1.jpg',
+            //         host:'heheh',
+            //         ahreflink:'http',
+            //         number:'12354',
+            //         desc:'tsdfasdf',
+            //         info:'hadfasdf'
+            //     }
+            // }
+        })
         Vue.component("my-movable",{
         template:'\
         <div class="video-container" :class="mycontainer">\
@@ -321,6 +352,12 @@
         sizelist.splice(target, 0, sizetmp);
        
     }
+    var hehehehehe = new Vue({
+        el:"#module-live-tenant",
+        data:{
+            livelists:[{imagesrc:'bilibili_recommend1.jpg',contentsrc:'bilibili_recommend2.jpg',host:'葡萄美酒夜光杯',ahreflink:'http',number:'3333',desc:'欲饮琵琶马上催,醉卧沙场君莫笑，古来征战几人回。不知明镜里，何处得秋霜。',info:'战争·出战'}]
+        }
+    });
 
     window.onscroll=function(e){
         var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
@@ -330,171 +367,172 @@
     }
     var sizelist = [300,400,500,400,300,500,700,200,400,600,300,500,200,700,400,500,300];
     var idlist=['module-game','module-national','module-series','module-live','module-dance','module-life','module-fashion','module-demon','module-animation','module-film','module-entertain','module-ft','module-tv','module-doc','module-music','module-science','module-adv']
-    var vueNav = new Vue({
-        el:"#movable-nav",
-        data:{
-           height:32,
-           width:40,
-           show:false,
-           top:0,
-           content:"呵呵",
-           totalHeight:280,
-           zindex:-1,
-           mousedownpoint:0,
-           starttop:0,
-           topNav:150,
-           isSelected:[],
-           aftermousedown:false,
-           editable:false,
-           timer:null,
-           bgx:0,
-           startindex:0,
-           targetindex:0,
-           navHeight:768,
-           tipshow:false,
-           items:['游戏','国创','番剧','直播','舞蹈','生活','时尚','鬼畜','动画','电影','娱乐','影视','TV剧','纪录片','音乐','科技','广告'],
-           highItems:sizelist
-        },
-        created:function(){
-           this.totalHeight = this.height * this.items.length;
-           console.log("total height is "+this.totalHeight);
-           for(var i = 0 ; i < this.items.length; i ++){
-               this.isSelected.push(false);
-           }
-        },
-        methods:{
-            handlemousedown:function(event,index){
-             if(this.editable){//hehe只有可编辑状态下才需要后续的记录
-             this.showhiddenblock(event,index);
-             this.zindex = 3;
-             this.content = this.items[index];
-             this.aftermousedown = true;
-             }
-            },
-            handlemouseup:function(event,index){
-            },
-            showhiddenblock:function(event,index){
-             this.top = index*this.height;
-             this.show = true;
-             this.mousedownpoint = this.top+event.offsetY;
-             this.starttop = this.top;
-             this.startindex = index;
-            },
-            handlemaskdown:function(event){
+    // var vueNav = new Vue({
+    //     el:"#movable-nav",
+    //     data:{
+    //        height:32,
+    //        width:40,
+    //        show:false,
+    //        top:0,
+    //        content:"呵呵",
+    //        totalHeight:280,
+    //        zindex:-1,
+    //        mousedownpoint:0,
+    //        starttop:0,
+    //        topNav:150,
+    //        isSelected:[],
+    //        aftermousedown:false,
+    //        editable:false,
+    //        timer:null,
+    //        bgx:0,
+    //        startindex:0,
+    //        targetindex:0,
+    //        navHeight:768,
+    //        tipshow:false,
+    //        items:['游戏','国创','番剧','直播','舞蹈','生活','时尚','鬼畜','动画','电影','娱乐','影视','TV剧','纪录片','音乐','科技','广告'],
+    //        highItems:sizelist
+    //     },
+    //     created:function(){
+    //        this.totalHeight = this.height * this.items.length;
+    //        console.log("total height is "+this.totalHeight);
+    //        for(var i = 0 ; i < this.items.length; i ++){
+    //            this.isSelected.push(false);
+    //        }
+    //     },
+    //     methods:{
+    //         handlemousedown:function(event,index){
+    //          if(this.editable){//hehe只有可编辑状态下才需要后续的记录
+    //          this.showhiddenblock(event,index);
+    //          this.zindex = 3;
+    //          this.content = this.items[index];
+    //          this.aftermousedown = true;
+    //          }
+    //         },
+    //         handlemouseup:function(event,index){
+    //         },
+    //         showhiddenblock:function(event,index){
+    //          this.top = index*this.height;
+    //          this.show = true;
+    //          this.mousedownpoint = this.top+event.offsetY;
+    //          this.starttop = this.top;
+    //          this.startindex = index;
+    //         },
+    //         handlemaskdown:function(event){
     
-            },
-            handlemaskmove:function(event){
-             if(!this.aftermousedown) return;
-             var offy = event.offsetY;
-             this.top = this.top+(offy-this.mousedownpoint);
-             this.mousedownpoint = offy;
-             var direction = this.top > this.starttop;//hehe应该用最终结果的偏移来决定方向，而不是用两次move的偏移来决定方向，因为我先下10 再上5 大体还是往下，但是只看这两次的话，方向是向上的。
-             var index = Math.floor(this.top/this.height);
-             //console.log(direction);
-             var move = direction? this.top - this.starttop : this.starttop - this.top;//hehe如果是往上移动，那么偏移应该是指相比于上一个格子的底部，而不是顶部
-             if((direction&&index==this.items.lenght-1))
-             return;
-             if(move>=(this.height/2 + 5)){
-                if(direction){
-                    var current = this.items[index];
-                    var next = this.items[index+1];
-                    this.items.splice(index,2,next,current);
-                    this.starttop = this.starttop+this.height;//hehe换了位置以后要更新新的起点位置.
-                   // console.log("change from "+(index+1)+" to "+index);
-                }
-                else{
-                    var current = this.items[index]; //hehe这里求得的index应该是上一个的index，因为top移动到了目标头上
-                    var next = this.items[index+1];
-                    this.items.splice(index,2,next,current);
-                    this.starttop = this.starttop - this.height;
-                   // console.log("change from "+(index)+" to "+(index+1));
-                }
-               //console.log("index "+index+" direction "+direction+" move "+move+" top "+this.top);
-             }
-            },
-            handlemaskup:function(event){
-             this.aftermousedown = false;
-             this.show = false;
-             this.zindex = -1;
-             this.targetindex = Math.floor(this.starttop/this.height);
-             switchElement(this.startindex,this.targetindex);
-            },
-            notselect:function(){
-                return false;
-            },
-            changeSelecte:function(position){
-               // console.log("received top is "+position);
-                var total = 0;
-                this.isSelected=[];
-              for(var i = 0 ; i < this.highItems.length; i ++){
-                var current = this.highItems[i];
-                if(total<=position&&current+total>position){
-                    this.isSelected.push(true);
-                }
-                else{
-                    this.isSelected.push(false);
-                }
-                // console.log("total is "+total);
-                // console.log("current is "+current);
-                total = total + current;
-              }
-              console.log(this.isSelected);
-            },
-            scrollTarget:function(index){
-                if(this.editable) return;
-                var target = 0 ;
-                for(var i = 0 ; i < index ; i ++){
-                    target+=this.highItems[i];
-                }
-                window.scrollTo(0,target);
-            },
-            setEditable:function(){
-                this.editable = !this.editable;
-            },
-            srollToTop:function(){
-                window.scrollTo(0,0);
-            },
-            standby:function(){
-             clearInterval(this.timer);
-             var count = 0 ;
-             var that = this;
-             this.tipshow = true;
-             this.timer=setInterval(function(){
-                that.bgx = 0- count*80;
-                count++;
-                if(count>=16){
-                    count= count -6;
-                }
-             },90);
-            },
-            backtosleep:function(){
-            clearInterval(this.timer);
-            this.tipshow = false;
-            var that = this;
-            this.timer = setInterval(function(){
-              that.bgx=that.bgx+80;
-              if(that.bgx>=0){
-                  clearInterval(that.timer);
-                 that.bgx = 0;
-              }
-            },90);
-            },
-            adjustTop:function(height,scrollTop){
-                console.log("height is "+height);
-                if(scrollTop==0){
-                    this.topNav="150";
-                    return;
-                }
-              if(height<=this.navHeight){
-                  this.topNav = 0;
-              }
-              else{
-                  this.topNav = Math.floor((height-this.navHeight)/2);
-              }
-            }
+    //         },
+    //         handlemaskmove:function(event){
+    //          if(!this.aftermousedown) return;
+    //          var offy = event.offsetY;
+    //          this.top = this.top+(offy-this.mousedownpoint);
+    //          this.mousedownpoint = offy;
+    //          var direction = this.top > this.starttop;//hehe应该用最终结果的偏移来决定方向，而不是用两次move的偏移来决定方向，因为我先下10 再上5 大体还是往下，但是只看这两次的话，方向是向上的。
+    //          var index = Math.floor(this.top/this.height);
+    //          //console.log(direction);
+    //          var move = direction? this.top - this.starttop : this.starttop - this.top;//hehe如果是往上移动，那么偏移应该是指相比于上一个格子的底部，而不是顶部
+    //          if((direction&&index==this.items.lenght-1))
+    //          return;
+    //          if(move>=(this.height/2 + 5)){
+    //             if(direction){
+    //                 var current = this.items[index];
+    //                 var next = this.items[index+1];
+    //                 this.items.splice(index,2,next,current);
+    //                 this.starttop = this.starttop+this.height;//hehe换了位置以后要更新新的起点位置.
+    //                // console.log("change from "+(index+1)+" to "+index);
+    //             }
+    //             else{
+    //                 var current = this.items[index]; //hehe这里求得的index应该是上一个的index，因为top移动到了目标头上
+    //                 var next = this.items[index+1];
+    //                 this.items.splice(index,2,next,current);
+    //                 this.starttop = this.starttop - this.height;
+    //                // console.log("change from "+(index)+" to "+(index+1));
+    //             }
+    //            //console.log("index "+index+" direction "+direction+" move "+move+" top "+this.top);
+    //          }
+    //         },
+    //         handlemaskup:function(event){
+    //          this.aftermousedown = false;
+    //          this.show = false;
+    //          this.zindex = -1;
+    //          this.targetindex = Math.floor(this.starttop/this.height);
+    //          switchElement(this.startindex,this.targetindex);
+    //         },
+    //         notselect:function(){
+    //             return false;
+    //         },
+    //         changeSelecte:function(position){
+    //            // console.log("received top is "+position);
+    //             var total = 0;
+    //             this.isSelected=[];
+    //           for(var i = 0 ; i < this.highItems.length; i ++){
+    //             var current = this.highItems[i];
+    //             if(total<=position&&current+total>position){
+    //                 this.isSelected.push(true);
+    //             }
+    //             else{
+    //                 this.isSelected.push(false);
+    //             }
+    //             // console.log("total is "+total);
+    //             // console.log("current is "+current);
+    //             total = total + current;
+    //           }
+    //           console.log(this.isSelected);
+    //         },
+    //         scrollTarget:function(index){
+    //             if(this.editable) return;
+    //             var target = 0 ;
+    //             for(var i = 0 ; i < index ; i ++){
+    //                 target+=this.highItems[i];
+    //             }
+    //             window.scrollTo(0,target);
+    //         },
+    //         setEditable:function(){
+    //             this.editable = !this.editable;
+    //         },
+    //         srollToTop:function(){
+    //             window.scrollTo(0,0);
+    //         },
+    //         standby:function(){
+    //          clearInterval(this.timer);
+    //          var count = 0 ;
+    //          var that = this;
+    //          this.tipshow = true;
+    //          this.timer=setInterval(function(){
+    //             that.bgx = 0- count*80;
+    //             count++;
+    //             if(count>=16){
+    //                 count= count -6;
+    //             }
+    //          },90);
+    //         },
+    //         backtosleep:function(){
+    //         clearInterval(this.timer);
+    //         this.tipshow = false;
+    //         var that = this;
+    //         this.timer = setInterval(function(){
+    //           that.bgx=that.bgx+80;
+    //           if(that.bgx>=0){
+    //               clearInterval(that.timer);
+    //              that.bgx = 0;
+    //           }
+    //         },90);
+    //         },
+    //         adjustTop:function(height,scrollTop){
+    //             console.log("height is "+height);
+    //             if(scrollTop==0){
+    //                 this.topNav="150";
+    //                 return;
+    //             }
+    //           if(height<=this.navHeight){
+    //               this.topNav = 0;
+    //           }
+    //           else{
+    //               this.topNav = Math.floor((height-this.navHeight)/2);
+    //           }
+    //         }
 
-        }
-    });
+    //     }
+    // });
+    
     // var blockVue = new Vue({
     //     el:"#many-blocks",
     //     data:{
@@ -615,7 +653,7 @@
 <!--attribute is case-insensitive sad  -->
 <!--</my-movable>
 </div> -->
-<div id="movable-nav" :class="{'edit-state':editable}" :style="{top:topNav+'px'}">
+<!--<div id="movable-nav" :class="{'edit-state':editable}" :style="{top:topNav+'px'}">
     <ul id="fixed-nav" >
       <div class='edit-guide' :class="{'edit-open':editable}">
           <img src="editguide.png" />
@@ -657,7 +695,7 @@
     
  </div>
 </div>-->
-<div id="module-game" class="bili-wrapper">
+<!--<div id="module-game" class="bili-wrapper">
     this is module-game
 </div>
 <div id="module-national" class="bili-wrapper">
@@ -707,6 +745,13 @@
 </div>
 <div id="module-adv" class="bili-wrapper">
     this is module-adv
+</div> -->
+<div id="module-live-tenant">
+ <my-live-tenant v-for="(item,index) in livelists" 
+ v-bind:imagesrc="item.imagesrc" v-bind:contentsrc="item.contentsrc"
+ v-bind:host="item.host" v-bind:ahreflink="item.ahreflink"
+ v-bind:number="item.number" v-bind:desc="item.desc" 
+ v-bind:info="item.info"></my-live-tenant>
 </div>
  </body>
 </html>
