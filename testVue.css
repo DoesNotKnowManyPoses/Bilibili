@@ -2016,8 +2016,6 @@ border: 1px solid #e5e9ef;
     float:right;
 }
 
-
-
 /*css for the live tenant , for reuse*/
 .module-live-teant-container{
     position: relative;
@@ -2099,6 +2097,7 @@ border: 1px solid #e5e9ef;
     transition: bottom 0.3s ease;
     color:wheat;
 }
+
 
 
 
