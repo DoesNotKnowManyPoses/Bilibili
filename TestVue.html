@@ -19,6 +19,26 @@
   props: ['history','link','cancel']
 });
 //vue component for the information of live 
+Vue.component('my-live-tenant',{
+            template:' \
+            <div class="module-live-teant-container">\
+            <a :href="ahreflink" target="_blank">\
+            <div class="module-live-teant-content">\
+            <img :src="contentsrc" />\
+            <div class="module-live-teant-content-info">\
+            <span class="module-fl">{{host}}</span><span class="module-fr">{{number}}</span>\
+            </div>\
+            <div class="module-live-teant-image">\
+            <img :src="imagesrc" /></div>\
+            </div>\
+            <div class="module-live-teant-desc">{{desc}}</div>\
+            <div class="module-live-teant-info">{{info}}</div>\
+            </a>\
+            </div>\
+            \
+            ',
+            props:['imagesrc','contentsrc','host','ahreflink','number','desc','info']
+        })
 Vue.component('my-live-ant',{
   template:'\
   <div class="module-live-rank">\
@@ -707,7 +727,7 @@ $(document).ready(function(){
          videoList:[{num:100,srclink:'movablevideo.webp',imgsrc:'movablepic3.webp',bulletURL:'',hreflink:'',desc:'美丽的男孩子，请问你有女朋友么',duration:'1:23',show:true},
         {num:30,srclink:'movablevideo2.webp',imgsrc:'movablepic4.webp',bulletURL:'',hreflink:'',desc:'我想明天给你买个包。。。子',duration:'5:27',show:true},
          {num:48,srclink:'movablevideo3.webp',imgsrc:'movablepic2.webp',bulletURL:'',hreflink:'',desc:'有趣的灵魂万中无一，但是你更漂亮',duration:'11:11',show:true},
-        {num:40,srclink:'movablevideo4.webp',imgsrc:'movablepic.webp',bulletURL:'',hreflink:'',desc:'出师未捷身先死，长使英雄泪满襟',duration:'5:20',show:true},
+        {num:40,srclink:'movablevideo4.webp',imgsrc:'movablepic.webp',bulletURL:'',hreflink:'',desc:'吾生也有涯，而知也无涯',duration:'5:20',show:true},
         {num:40,srclink:'movablevideo2.webp',imgsrc:'movablepic.webp',bulletURL:'',hreflink:'',desc:'出师未捷身先死，长使英雄泪满襟',duration:'5:20',show:true}],
         advocateContainer:'advocate-container'
         }
@@ -835,7 +855,9 @@ $(document).ready(function(){
              this.mouseoffmask();
             },
             handlemaskout:function(event){
+             if(this.aftermousedown){ //如果不是按住了鼠标，则不考虑移出的问题。
              this.mouseoffmask();
+             }
             },
             mouseoffmask:function(){
              this.aftermousedown = false;
@@ -933,6 +955,14 @@ $(document).ready(function(){
     var liveVue = new Vue({
         el:"#module-live",
         data:{
+            livenumber:10000,
+            updatesnum:12345,
+            biglivelists:[{imagesrc:'bilibili_recommend1.jpg',contentsrc:'bilibili_recommend3.jpg',host:'葡萄美酒夜光杯',ahreflink:'http',number:'3333',desc:'不知明镜里，何处得秋霜。',info:'战争·出战'},{imagesrc:'bilibili_recommend2.jpg',contentsrc:'movablevideo4.webp',host:'葡萄美酒夜光杯',ahreflink:'http',number:'3333',desc:'欲渡黄河冰塞川，将登太行雪满山',info:'战争·出战'},
+            {imagesrc:'bili_live1.jpg',contentsrc:'bilibili_recommend2.jpg',host:'黑云压城城欲摧',ahreflink:'http',number:'3333',desc:'王师北定中原日',info:'战争·出战'},{imagesrc:'bilibili_recommend2.jpg',contentsrc:'bilibili_recommend3.jpg',host:'琵琶一曲断',ahreflink:'http',number:'3333',desc:'闲来垂钓碧溪上，忽复乘舟梦日边',info:'战争·出战'},{imagesrc:'bilibili_recommend3.jpg',contentsrc:'movablevideo3.webp',host:'不眠是征人',ahreflink:'http',number:'3333',desc:'黄沙百战穿金甲，不破楼兰终不还。',info:'战争·出战'},
+            {imagesrc:'bili_live2.jpg',contentsrc:'bili_live3.jpg',host:'天下谁人不识君',ahreflink:'http',number:'3333',desc:'卷我屋上三重茅，茅飞渡江洒江郊，高者挂罥长林梢，下者飘转沉塘坳',info:'战争·出战'},{imagesrc:'bilibili_recommend1.jpg',contentsrc:'movablevideo2.webp',host:'夜光杯独醒',ahreflink:'http',number:'3333',desc:'羌笛何须怨杨柳，春风不度玉门关',info:'战争·出战'},
+            {imagesrc:'bili_live3.jpg',contentsrc:'bili_live6.jpg',host:'鹅鹅鹅',ahreflink:'http',number:'3333',desc:'上下而求索',info:'战争·出战'},
+            {imagesrc:'bili_live4.jpg',contentsrc:'bili_live1.jpg',host:'关关雎鸠',ahreflink:'http',number:'3333',desc:'上穷碧落下黄泉。',info:'战争·出战'},
+            {imagesrc:'bili_live6.jpg',contentsrc:'bili_live4.jpg',host:'君子好逑',ahreflink:'http',number:'3333',desc:'溯洄从之，道阻且长',info:'战争·出战'}],
             left:0,
             width:260,
             isselected:[],
@@ -941,19 +971,20 @@ $(document).ready(function(){
             carouselInterval:null,
             leftArray:[0,-260,-520],
             indexArray:[0,1,2],
-            descArray:['Legend never die','今日与君别','雪上空留马行处'],
+            descArray:['今日与君别','雪上空留马行处','Legend never die'],
             desc:"",
-            livelist:[{num:1,livelink:"http",photosrc:"host3.jpg",viewcount:"23W",postname:'一日不见三秋隔',desc:'三秋不见已忘君'},
-            {num:2,livelink:"http",photosrc:"host2.jpg",viewcount:"1.0W",postname:'君住长江头',desc:'妾在长江尾'},
-            {num:3,livelink:"http",photosrc:"host4.jpg",viewcount:"0.3W",postname:'思君不见君',desc:'你就去死吧'},
-            {num:4,livelink:"http",photosrc:"host5.jpg",viewcount:"0.1W",postname:'接天莲叶无穷碧',desc:'映日荷花别样红'},
-            {num:5,livelink:"http",photosrc:"host1.jpg",viewcount:"3.3W",postname:'天时地利人和',desc:'枝繁叶茂根深'},
-            {num:6,livelink:"http",photosrc:"host6.jpg",viewcount:"5.5W",postname:'那一瞥',desc:'那一剑的温柔'}]
+            smalllivelist:[{num:1,livelink:"http",photosrc:"host3.jpg",viewcount:"23W",postname:'一日不见三秋隔',desc:'三秋不见已忘君'},
+            {num:2,livelink:"http",photosrc:"host2.jpg",viewcount:"6.0W",postname:'君住长江头',desc:'妾在长江尾'},
+            {num:3,livelink:"http",photosrc:"host4.jpg",viewcount:"5.3W",postname:'思君不见君',desc:'你就去死吧'},
+            {num:4,livelink:"http",photosrc:"host5.jpg",viewcount:"4.1W",postname:'接天莲叶无穷碧',desc:'映日荷花别样红'},
+            {num:5,livelink:"http",photosrc:"host1.jpg",viewcount:"2.3W",postname:'天时地利人和',desc:'枝繁叶茂根深'},
+            {num:6,livelink:"http",photosrc:"host6.jpg",viewcount:"1.5W",postname:'那一瞥',desc:'那一剑的温柔'}]
         },
         created:function(){
            this.isselected=[true,false,false];
            this.carousel=[true,false,false];
            this.desc = this.descArray[0];
+           this.getUpdateLoop();
         },
         methods:{
             switchTab:function(index){
@@ -998,6 +1029,16 @@ $(document).ready(function(){
             },
             stopSlideLoop:function(){
                 clearInterval(this.carouselInterval);
+            },
+            resetUpdates:function(){
+                this.updatesnum = 0;
+                this.biglivelists.unshift(this.biglivelists.pop());
+            },
+            getUpdateLoop:function(){
+                var that = this;
+                setInterval(function(){
+                 that.updatesnum = that.updatesnum + Math.ceil(Math.random()*50);
+                },7000);
             }
 
         }
@@ -1415,24 +1456,7 @@ $(document).ready(function(){
                <div class='tab-item' v-on:click="switchTab(2)" :class="{'tab-item-selected':isselected[2]}"><span class='tab-item-desc'>为你推荐<div class='module-live-select' v-show="isselected[2]"><div class='module-live-selectimg'></div></div></span></div>
            </div>
         <div class="right-column-content "  :style="{left:left+'px'}">
-        <!-- <div class='module-live-rank'>
-             <div class='module-live-ranknumber'>1</div>
-             <a href="" >
-             <img class="module-live-rankimg">
-         
-             </img>
-             <div class='module-live-rankdesc'>
-                 <div class='module-live-rankupdesc'>
-                  <span class="module-live-viewcount clearfix">21.3W</span>  
-                  <span class='module-live-name clearfix'>sdfasdfffffffffffffasdfasdfffffffffasdf</span>     
-                 </div>
-                 <div class='module-live-ranklowdesc'>
-                    hehehehhehehehddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-                 </div>
-             </div>
-            </a>
-         </div> -->
-         <my-live-ant v-for="(item,index) in livelist" v-bind:num="item.num" v-bind:livelink="item.livelink"
+         <my-live-ant v-for="(item,index) in smalllivelist" v-bind:num="item.num" v-bind:livelink="item.livelink"
          v-bind:photosrc="item.photosrc" v-bind:viewcount="item.viewcount" v-bind:postname="item.postname" v-bind:desc="item.desc" >
         </my-live-ant>
         </div>
@@ -1478,7 +1502,22 @@ $(document).ready(function(){
            
        </div>
        <div class="left-column-relative module-live-height clearfix">
-        
+        <div class="left-column-header">
+          <i class='bili-icon live-icon'></i>
+          <span class="left-column-headername">正在直播</span>
+          <p class="online-info">当前共有<span>{{livenumber}}</span>个在线直播</p>
+          <a href="http" target="_blank" ><i class="bili-icon fire"></i>
+          <span class='fire-entry'>233秒居然能做到这些</span></a>
+          <div class="left-column-more"><span>更多</span><i class='bili-icon arrow-right'></i></div>
+          <div class="left-column-refresh" v-on:click="resetUpdates" v-show="updatesnum>0"><i class='bili-icon refresh'></i>{{updatesnum}}条新动态</div>
+        </div>
+        <div class="left-column-content">
+            <my-live-tenant v-for="(item,index) in biglivelists" 
+            v-bind:imagesrc="item.imagesrc" v-bind:contentsrc="item.contentsrc"
+            v-bind:host="item.host" v-bind:ahreflink="item.ahreflink"
+            v-bind:number="item.number" v-bind:desc="item.desc" 
+            v-bind:info="item.info"></my-live-tenant>
+        </div>
        </div>
     </div>
     <div id="module-dance" class="bili-wrapper">
