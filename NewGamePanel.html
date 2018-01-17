@@ -15,8 +15,8 @@
             <div class="module-live-teant-content-info">\
             <span class="module-fl">{{host}}</span><span class="module-fr">{{number}}</span>\
             </div>\
-            <div class="module-live-teant-image">\
-            <img :src="imagesrc" /></div>\
+            <div class="module-live-teant-image" :style="{backgroundImage:\'url(\'+imagesrc+\')\'}">\
+            </div>\
             </div>\
             <div class="module-live-teant-desc">{{desc}}</div>\
             <div class="module-live-teant-info">{{info}}</div>\
@@ -355,7 +355,7 @@
     var hehehehehe = new Vue({
         el:"#module-live-tenant",
         data:{
-            livelists:[{imagesrc:'bilibili_recommend1.jpg',contentsrc:'bilibili_recommend2.jpg',host:'葡萄美酒夜光杯',ahreflink:'http',number:'3333',desc:'欲饮琵琶马上催,醉卧沙场君莫笑，古来征战几人回。不知明镜里，何处得秋霜。',info:'战争·出战'}]
+            livelists:[{imagesrc:'hahaha@.webp',contentsrc:'bilibili_recommend2.jpg',host:'葡萄美酒夜光杯',ahreflink:'http',number:'3333',desc:'欲饮琵琶马上催,醉卧沙场君莫笑，古来征战几人回。不知明镜里，何处得秋霜。',info:'战争·出战'}]
         }
     });
 
