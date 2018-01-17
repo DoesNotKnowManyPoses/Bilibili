@@ -2041,12 +2041,12 @@ border: 1px solid #e5e9ef;
     opacity:0;
     background-color: black;
     top:0;
-    transition:left 1s ease;
+    transition:all 1s ease;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
-.module-live-teant-image img{
-    position:relative;
-    margin:auto auto;
-}
+
 .module-live-teant-container:hover .module-live-teant-image{
     opacity:1;
 }
