@@ -1991,12 +1991,8 @@ border: 1px solid #e5e9ef;
     background-color: white;
     transition:all 0.2s ease;
 }
-.middle-margin{
-    margin-left:3px;
-    margin-right: 3px;
-}
+
 .carousel-extend{
-    width:30px;
     background-color: #f25d82;
 }
 .module-live-top{
@@ -2210,8 +2206,26 @@ border: 1px solid #e5e9ef;
     margin:0 4px -2px 4px;
     transition:all 0.3s ease;
 }
-
-
+/*test relative */
+.testrelative{
+    position:relative;
+    margin:0 auto;
+    background-color: black;
+}
+.test1{
+    display: inline-block;
+    position:relative;
+    width:100px;
+    height:20px;
+    background-color: #f25d82;
+}
+.test2{
+    display: inline-block;
+    position:relative;
+    width:300px;
+    height:20px;
+    background-color: #00a1d6;
+}
 
 
 
