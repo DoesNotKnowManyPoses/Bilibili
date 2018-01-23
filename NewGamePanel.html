@@ -6,182 +6,208 @@
     <script src="jquery-3.2.1.js" ></script>
     <meta charset="utf-8" />
     <script>
-      
-        Vue.component('my-live-tenant',{
-            template:' \
-            <div class="module-live-teant-container">\
-            <a :href="ahreflink" target="_blank">\
-            <div class="module-live-teant-content">\
-            <img :src="contentsrc" />\
-            <div class="module-live-teant-content-info">\
-            <span class="module-fl">{{host}}</span><span class="module-fr">{{number}}</span>\
-            </div>\
-            <div class="module-live-teant-image" :style="{backgroundImage:\'url(\'+imagesrc+\')\'}">\
-            </div>\
-            </div>\
-            <div class="module-live-teant-desc">{{desc}}</div>\
-            <div class="module-live-teant-info">{{info}}</div>\
-            </a>\
-            </div>\
-            \
-            ',
-            props:['imagesrc','contentsrc','host','ahreflink','number','desc','info']
-        })
-        Vue.component("my-movable",{
-        template:'\
-        <div class="video-container" :class="mycontainer">\
-        <a :href="hreflink" target="_blank" >\
-        <img :src="srclink" />\
-        <div class="movable-pic-container" v-on:mouseover="startMovable($event)" v-on:mousemove="move($event)" v-on:mouseout="hideMovable">\
-        <p v-for="(item,index) in bullets" class="row-bullet" :class="{\'second-row\':isSecondRow(index)}" :style="bulletStyle[index]" ref="p">{{bullets[index]}}</p>\
-        <div class="percent-bar">\
-        <div class="percent" :style="{width:ratio+\'%\'}"></div>\
-        </div>\
-        <div class="movable-pic" :style="[bgposition,backgroundImage]">\
-        </div>\
-        <div class="later-watch">\
-        </div>\
-        <span class="duration">{{duration}}</span>\
-        </div>\
-        <p class="video-description">{{description}}</p>\
-        </a>\
-        </div>\
-        ',
-        props:{
-            parameterObject:{
-                type:Object
-                // default:function(){
-                //     return {
-                //         num: "",
-                //         srclink: 'movablevideo.webp',
-                //         imgsrc: '',
-                //         bulletURL: "",
-                //         hreflink: ""
-                //     }
-                // }
-            },
-            mycontainer:{
-                type:String
-            }
-        },
-        data:function(){
-            return {
-               left:0,
-               top:10,
-               startLeft:0,
-               startTop:0,
-               width:160,
-               height:90,
-               description:this.parameterObject.desc,
-               duration:this.parameterObject.duration,
-               hreflink:this.parameterObject.hreflink,
-               num:this.parameterObject.num,
-              // num:48,
-               numPerRow:10,
-               ratio:0,
-               srclink:this.parameterObject.srclink,
-               //srclink:"movablevideo.webp",
-              // backgroundImgSrc:"movablepic2.webp",
-               backgroundImgSrc:this.parameterObject.imgsrc,
-               bgposition:{
-                backgroundPositionX:"0px",
-                backgroundPositionY:"0px"
-               },
-               showMovablePic:false,
-               timeoutList:[],
-               looptimeout:null,
-               timeInterval:null,
-               bulletStyle:[],
-               bulletURL:this.parameterObject.bulletURL,
-               bullets:['呵呵呵呵','哈哈航昂昂哈','好好学习','秦时明月汉时关','粒粒皆辛苦']
-            }
-        },
-        methods:{
-              startMovable:function(event){
-                this.setNewPosition(event); //根据鼠标的位置，直接定位到对应的背景图片的位置
-                this.showBullet();//弹幕准备发射
-              },
-              move:function(event){
-                this.setNewPosition(event); //这个事件只会触发背景图片位置的切换。
-              },
-              /*根据鼠标的水平位置，设置背景图片的位置，来模拟预览*/
-              setNewPosition:function(event){
-                  var offset=event.offsetX;
-                  this.startTop=event.offsetY;
-                  this.ratio = offset*100.0/this.width;
-                  var sequence = Math.floor(offset*this.num/(this.width+1));
-                  var sequenceV = Math.floor(sequence/this.numPerRow);
-                  var sequenceH = sequence%this.numPerRow;
-                  this.left = 0-sequenceH*this.width;
-                  this.top = 0- sequenceV*this.height;
-                  console.log("sequence is "+sequenceH+" "+sequenceV);
-                  this.bgposition.backgroundPositionX=this.left+"px";
-                  this.bgposition.backgroundPositionY=this.top+"px";
-              },
-              /*弹幕第一行还是第二行*/
-              isSecondRow:function(index){
-                  return index%2!=0;
-              },
-              /**/
-              reloadBullets:function(){
-                 this.timeoutList.forEach(function(timeout){//清除没跑完的setTimeout
-                     clearTimeout(timeout);
-                 });
-                 this.timeoutList=[];                  
-                 this.bulletStyle.splice(0,this.bulletStyle.length); //清除新设定的目标位置
-              },
-              /*将已经设置了bulletstyle的timeout保留，还未执行的timeout取消掉*/
-              hideMovable:function(){
-                  var start = this.bulletStyle.length;   
-                  var end = this.timeoutList.length; 
-                 for(var i = start;i<end; i ++){
-                     clearTimeout(this.timeoutList[i]);
-                 }
-                 this.timeoutList.splice(start,end-start);
-                 clearTimeout(this.looptimeout);
-              },
-              showBullet:function(){
-                var bulletList = this.$refs.p;
-                var that = this;
-                var start = this.bulletStyle.length;
-                if(start==bulletList.length&&start>0){//弹幕已经弹完，需要弄一个循环
-                    this.looptimeout = setTimeout( function(){
-                              that.reloadBullets();
-                              that.showBullet();
-                          },7000);
-                   return;
-                }
-                for(var i = start ; i < bulletList.length; i ++){
-                  this.timeoutList.push(setTimeout(function(index){
-                     return function(){
-                     var length = bulletList[index].clientWidth;
-                     var style={};
-                     style.left="-"+length+"px";
-                     style.transition="all 5s linear";
-                      that.bulletStyle.push(style);
-                      console.log("index is "+index);
-                      if(index==bulletList.length-1){
-                          that.looptimeout=setTimeout(function(){
-                              that.reloadBullets();
-                              that.showBullet();
-                          },7000);
-                      }
-                     };
-                  }(i),(i-start)*1000));
-                }
-              }
-             },
-             computed:{
-                backgroundImage:function(){
-                    return {
-                        background:"url('"+this.backgroundImgSrc+"') 0 0 no-repeat"
-                    };
-                }
-             }
+    //     Vue.component('my-live-tenant',{
+    //         template:' \
+    //         <div class="module-live-teant-container">\
+    //         <a :href="ahreflink" target="_blank">\
+    //         <div class="module-live-teant-content">\
+    //         <img :src="contentsrc" />\
+    //         <div class="module-live-teant-content-info">\
+    //         <span class="module-fl">{{host}}</span><span class="module-fr">{{number}}</span>\
+    //         </div>\
+    //         <div class="module-live-teant-image" :style="{backgroundImage:\'url(\'+imagesrc+\')\'}">\
+    //         </div>\
+    //         </div>\
+    //         <div class="module-live-teant-desc">{{desc}}</div>\
+    //         <div class="module-live-teant-info">{{info}}</div>\
+    //         </a>\
+    //         </div>\
+    //         \
+    //         ',
+    //         props:['imagesrc','contentsrc','host','ahreflink','number','desc','info']
+    //     })
+    //     Vue.component("my-movable",{
+    //     template:'\
+    //     <div class="video-container" :class="mycontainer">\
+    //     <a :href="hreflink" target="_blank" >\
+    //     <img :src="srclink" />\
+    //     <div class="movable-pic-container" v-on:mouseover="startMovable($event)" v-on:mousemove="move($event)" v-on:mouseout="hideMovable">\
+    //     <p v-for="(item,index) in bullets" class="row-bullet" :class="{\'second-row\':isSecondRow(index)}" :style="bulletStyle[index]" ref="p">{{bullets[index]}}</p>\
+    //     <div class="percent-bar">\
+    //     <div class="percent" :style="{width:ratio+\'%\'}"></div>\
+    //     </div>\
+    //     <div class="movable-pic" :style="[bgposition,backgroundImage]">\
+    //     </div>\
+    //     <div class="later-watch">\
+    //     </div>\
+    //     <span class="duration">{{duration}}</span>\
+    //     </div>\
+    //     <p class="video-description">{{description}}</p>\
+    //     </a>\
+    //     </div>\
+    //     ',
+    //     props:{
+    //         parameterObject:{
+    //             type:Object
+    //             // default:function(){
+    //             //     return {
+    //             //         num: "",
+    //             //         srclink: 'movablevideo.webp',
+    //             //         imgsrc: '',
+    //             //         bulletURL: "",
+    //             //         hreflink: ""
+    //             //     }
+    //             // }
+    //         },
+    //         mycontainer:{
+    //             type:String
+    //         }
+    //     },
+    //     data:function(){
+    //         return {
+    //            left:0,
+    //            top:10,
+    //            startLeft:0,
+    //            startTop:0,
+    //            width:160,
+    //            height:90,
+    //            description:this.parameterObject.desc,
+    //            duration:this.parameterObject.duration,
+    //            hreflink:this.parameterObject.hreflink,
+    //            num:this.parameterObject.num,
+    //           // num:48,
+    //            numPerRow:10,
+    //            ratio:0,
+    //            srclink:this.parameterObject.srclink,
+    //            //srclink:"movablevideo.webp",
+    //           // backgroundImgSrc:"movablepic2.webp",
+    //            backgroundImgSrc:this.parameterObject.imgsrc,
+    //            bgposition:{
+    //             backgroundPositionX:"0px",
+    //             backgroundPositionY:"0px"
+    //            },
+    //            showMovablePic:false,
+    //            timeoutList:[],
+    //            looptimeout:null,
+    //            timeInterval:null,
+    //            bulletStyle:[],
+    //            bulletURL:this.parameterObject.bulletURL,
+    //            bullets:['呵呵呵呵','哈哈航昂昂哈','好好学习','秦时明月汉时关','粒粒皆辛苦']
+    //         }
+    //     },
+    //     methods:{
+    //           startMovable:function(event){
+    //             this.setNewPosition(event); //根据鼠标的位置，直接定位到对应的背景图片的位置
+    //             this.showBullet();//弹幕准备发射
+    //           },
+    //           move:function(event){
+    //             this.setNewPosition(event); //这个事件只会触发背景图片位置的切换。
+    //           },
+    //           /*根据鼠标的水平位置，设置背景图片的位置，来模拟预览*/
+    //           setNewPosition:function(event){
+    //               var offset=event.offsetX;
+    //               this.startTop=event.offsetY;
+    //               this.ratio = offset*100.0/this.width;
+    //               var sequence = Math.floor(offset*this.num/(this.width+1));
+    //               var sequenceV = Math.floor(sequence/this.numPerRow);
+    //               var sequenceH = sequence%this.numPerRow;
+    //               this.left = 0-sequenceH*this.width;
+    //               this.top = 0- sequenceV*this.height;
+    //               console.log("sequence is "+sequenceH+" "+sequenceV);
+    //               this.bgposition.backgroundPositionX=this.left+"px";
+    //               this.bgposition.backgroundPositionY=this.top+"px";
+    //           },
+    //           /*弹幕第一行还是第二行*/
+    //           isSecondRow:function(index){
+    //               return index%2!=0;
+    //           },
+    //           /**/
+    //           reloadBullets:function(){
+    //              this.timeoutList.forEach(function(timeout){//清除没跑完的setTimeout
+    //                  clearTimeout(timeout);
+    //              });
+    //              this.timeoutList=[];                  
+    //              this.bulletStyle.splice(0,this.bulletStyle.length); //清除新设定的目标位置
+    //           },
+    //           /*将已经设置了bulletstyle的timeout保留，还未执行的timeout取消掉*/
+    //           hideMovable:function(){
+    //               var start = this.bulletStyle.length;   
+    //               var end = this.timeoutList.length; 
+    //              for(var i = start;i<end; i ++){
+    //                  clearTimeout(this.timeoutList[i]);
+    //              }
+    //              this.timeoutList.splice(start,end-start);
+    //              clearTimeout(this.looptimeout);
+    //           },
+    //           showBullet:function(){
+    //             var bulletList = this.$refs.p;
+    //             var that = this;
+    //             var start = this.bulletStyle.length;
+    //             if(start==bulletList.length&&start>0){//弹幕已经弹完，需要弄一个循环
+    //                 this.looptimeout = setTimeout( function(){
+    //                           that.reloadBullets();
+    //                           that.showBullet();
+    //                       },7000);
+    //                return;
+    //             }
+    //             for(var i = start ; i < bulletList.length; i ++){
+    //               this.timeoutList.push(setTimeout(function(index){
+    //                  return function(){
+    //                  var length = bulletList[index].clientWidth;
+    //                  var style={};
+    //                  style.left="-"+length+"px";
+    //                  style.transition="all 5s linear";
+    //                   that.bulletStyle.push(style);
+    //                   console.log("index is "+index);
+    //                   if(index==bulletList.length-1){
+    //                       that.looptimeout=setTimeout(function(){
+    //                           that.reloadBullets();
+    //                           that.showBullet();
+    //                       },7000);
+    //                   }
+    //                  };
+    //               }(i),(i-start)*1000));
+    //             }
+    //           }
+    //          },
+    //          computed:{
+    //             backgroundImage:function(){
+    //                 return {
+    //                     background:"url('"+this.backgroundImgSrc+"') 0 0 no-repeat"
+    //                 };
+    //             }
+    //          }
 
-       });
+    //    });
+    //     var counter = 0;
+    //     function increaseCounter(){
+    //       console.log(counter++)
+    //     }
+    //     function mouseover(){
+    //       console.log(new Date())
+    //     }
+    //     function mouseout(){
+    //         console.log(new Date())
+    //     }
 
        window.onload=function(){
+       new Vue({
+           el:'#testcounter',
+           data:{
+               counter:0
+           },
+           methods:{
+               increaseCounter:function(){
+                   console.log(this.counter++)
+               },
+               mouseover:function(){
+                   console.log(new Date())
+               },
+               mouseout:function(){
+                   console.log(new Date())
+               }
+           }
+       })
     //    var gameVue = new Vue({
     //        el:"#game",
     //        data:{
@@ -319,45 +345,45 @@
     //         }
     //        }
     //    })
-    function switchElement(source,target){
-        console.log("received index are "+source+" "+target);
-        var sourceid="#"+idlist[source];
-        var targetid= "#"+idlist[target];
-        if(source<target){
-        $(sourceid).insertAfter(targetid);
-        }
-        else if(source>target){
-        $(sourceid).insertBefore(targetid);
-        }
-        else{
-            return;
-        }
+    // function switchElement(source,target){
+    //     console.log("received index are "+source+" "+target);
+    //     var sourceid="#"+idlist[source];
+    //     var targetid= "#"+idlist[target];
+    //     if(source<target){
+    //     $(sourceid).insertAfter(targetid);
+    //     }
+    //     else if(source>target){
+    //     $(sourceid).insertBefore(targetid);
+    //     }
+    //     else{
+    //         return;
+    //     }
 
-        var idtmp = idlist[source];
-        idlist.splice(source, 1);
-        idlist.splice(target, 0, idtmp);
+    //     var idtmp = idlist[source];
+    //     idlist.splice(source, 1);
+    //     idlist.splice(target, 0, idtmp);
 
-        var sizetmp = sizelist[source];
-        sizelist.splice(source, 1);
-        sizelist.splice(target, 0, sizetmp);
+    //     var sizetmp = sizelist[source];
+    //     sizelist.splice(source, 1);
+    //     sizelist.splice(target, 0, sizetmp);
        
-    }
-    var hehehehehe = new Vue({
-        el:"#module-live-tenant",
-        data:{
-            livelists:[{imagesrc:'hahaha@.webp',contentsrc:'bilibili_recommend2.jpg',host:'葡萄美酒夜光杯',ahreflink:'http',number:'3333',desc:'欲饮琵琶马上催,醉卧沙场君莫笑，古来征战几人回。不知明镜里，何处得秋霜。',info:'战争·出战'}]
-        }
-    });
+    //}
+    // var hehehehehe = new Vue({
+    //     el:"#module-live-tenant",
+    //     data:{
+    //         livelists:[{imagesrc:'hahaha@.webp',contentsrc:'bilibili_recommend2.jpg',host:'葡萄美酒夜光杯',ahreflink:'http',number:'3333',desc:'欲饮琵琶马上催,醉卧沙场君莫笑，古来征战几人回。不知明镜里，何处得秋霜。',info:'战争·出战'}]
+    //     }
+    // });
 
-    window.onscroll=function(e){
-        var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-        var availableHeight = document.documentElement.clientHeight ;
-         vueNav.adjustTop(availableHeight,scrollTop);
-         vueNav.changeSelecte(scrollTop);
-    }
-    var sizelist = [300,400,500,400,300,500,700,200,400,600,300,500,200,700,400,500,300];
-    var idlist=['module-game','module-national','module-series','module-live','module-dance','module-life','module-fashion','module-demon','module-animation','module-film','module-entertain','module-ft','module-tv','module-doc','module-music','module-science','module-adv']
-    // var vueNav = new Vue({
+    // window.onscroll=function(e){
+    //     var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+    //     var availableHeight = document.documentElement.clientHeight ;
+    //      vueNav.adjustTop(availableHeight,scrollTop);
+    //      vueNav.changeSelecte(scrollTop);
+    // }
+    // var sizelist = [300,400,500,400,300,500,700,200,400,600,300,500,200,700,400,500,300];
+    // var idlist=['module-game','module-national','module-series','module-live','module-dance','module-life','module-fashion','module-demon','module-animation','module-film','module-entertain','module-ft','module-tv','module-doc','module-music','module-science','module-adv']
+    // // var vueNav = new Vue({
     //     el:"#movable-nav",
     //     data:{
     //        height:32,
@@ -736,16 +762,15 @@
 <div id="module-adv" class="bili-wrapper">
     this is module-adv
 </div> -->
-<div id="module-live-tenant">
+<!--<div id="module-live-tenant">
  <my-live-tenant v-for="(item,index) in livelists" 
  v-bind:imagesrc="item.imagesrc" v-bind:contentsrc="item.contentsrc"
  v-bind:host="item.host" v-bind:ahreflink="item.ahreflink"
  v-bind:number="item.number" v-bind:desc="item.desc" 
  v-bind:info="item.info"></my-live-tenant>
-</div>
-<div class="testrelative">
-    <div class="test1"></div>
-    <div class="test2"></div>
+</div> -->
+<div id='testcounter' style="width:500px;height:500px; display:block; border: 1px solid green;" v-on:mousemove="increaseCounter" v-on:mouseover="mouseover" v-on:mouseout="mouseout">
+
 </div>
  </body>
 </html>
