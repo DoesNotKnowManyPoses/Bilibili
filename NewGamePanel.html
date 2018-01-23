@@ -6,6 +6,7 @@
     <script src="jquery-3.2.1.js" ></script>
     <meta charset="utf-8" />
     <script>
+      
         Vue.component('my-live-tenant',{
             template:' \
             <div class="module-live-teant-container">\
@@ -24,18 +25,7 @@
             </div>\
             \
             ',
-            props:['imagesrc','contentsrc','host','ahreflink','number','desc','info'],
-            // data:function(){
-            //     return {
-            //         imagesrc:'bilibili_recommend2.jpg',
-            //         contentsrc:'bilibili_recommend1.jpg',
-            //         host:'heheh',
-            //         ahreflink:'http',
-            //         number:'12354',
-            //         desc:'tsdfasdf',
-            //         info:'hadfasdf'
-            //     }
-            // }
+            props:['imagesrc','contentsrc','host','ahreflink','number','desc','info']
         })
         Vue.component("my-movable",{
         template:'\
@@ -752,6 +742,10 @@
  v-bind:host="item.host" v-bind:ahreflink="item.ahreflink"
  v-bind:number="item.number" v-bind:desc="item.desc" 
  v-bind:info="item.info"></my-live-tenant>
+</div>
+<div class="testrelative">
+    <div class="test1"></div>
+    <div class="test2"></div>
 </div>
  </body>
 </html>

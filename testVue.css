@@ -1855,7 +1855,7 @@ border: 1px solid #e5e9ef;
     position:relative;
     width:100%;
     height:40px;
-    margin-bottom:5px;
+    margin-bottom:15px;
 }
 .module-live-rank a{
     text-decoration: none;
@@ -1923,12 +1923,13 @@ border: 1px solid #e5e9ef;
 
 }
 .carousel-recommendation{
-    position:absolute;
+    position:relative;
     top:0;
     left:0;
     overflow:hidden;
     width:100%;
     height:248px;
+    border-radius: 6px;
 }
 .carousel-slide{
     position:absolute;
@@ -1938,21 +1939,38 @@ border: 1px solid #e5e9ef;
     height:100%;
     transition:left 0.3s ease;
 }
+.carousel-slide a{
+    text-decoration: none;
+    color:black;
+}
+.carousel-slide src{
+    width:100%;
+    height:100%;
+}
 .carousel-desc{
     position:absolute;
     left:0;
-    bottom:40px;
-    padding-left:10px;
-    opacity: 0.3;
-    background-color: black;
+    bottom:20px;
+    opacity: 0.6;
+    height:20px;
+    line-height: 20px;
+    background-color: black;;
     font-size:14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width:100%;
+    color:white;
+
+}
+.carousel-desc span{
+    display: inline-block;
+    margin-left: 10px;
 }
 .carousel-control-container{
     position:absolute;
-    height:30px;
+    height:20px;
     bottom:0;
-    opacity: 0.4;
-    background-color: black;
+    background-color: rgba(5, 5, 5, 0.7);
     font-size:14px;
     width:100%;
 }
@@ -1968,20 +1986,26 @@ border: 1px solid #e5e9ef;
     display: inline-block;
     width:15px;
     height:6px;
-    margin: auto 0;
+    margin: 7px 0;
     border-radius: 4px;
     background-color: white;
     transition:all 0.2s ease;
 }
-.middle-margin{
-    margin: auto 3px;
-}
+
 .carousel-extend{
-    width:30px;
     background-color: #f25d82;
 }
 .module-live-top{
     background-color: #f25d82;
+}
+.recommendation-adv{
+    position:relative;
+    width:100%;
+}
+.recommendation-adv img{
+    position: relative;
+    display: block;
+    margin-top:25px;
 }
 
 /*css for the live tenant , for reuse*/
@@ -1991,7 +2015,8 @@ border: 1px solid #e5e9ef;
     height:148px;
     display: inline-block;
     overflow: hidden;
-    
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 .module-live-teant-content{
     position:relative;
@@ -2022,7 +2047,10 @@ border: 1px solid #e5e9ef;
     opacity:1;
 }
 .module-live-teant-container:hover .module-live-teant-info{
-    bottom:0;
+    bottom:-20px;
+}
+.module-live-teant-container:hover .module-live-teant-desc{
+     color:#00a1d6;
 }
 .module-live-teant-content-info{
     position: absolute;
@@ -2036,12 +2064,19 @@ border: 1px solid #e5e9ef;
     display: block;
     line-height: 20px;
     height:20px;
+    width:100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .module-fr{
     float: right;
     display:block;
     line-height: 20px;
     height:20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width:60px;
+    text-align: right;
 }
 .module-live-teant-desc{
     position: relative;
@@ -2054,17 +2089,144 @@ border: 1px solid #e5e9ef;
     word-break: break-all;
     word-wrap:break-word;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 .module-live-teant-info{
     position: absolute;
     height:20px;
     line-height: 20px;
     width:100%;
-    bottom:-20px;
+    bottom:0;
     transition: bottom 0.3s ease;
-    color:wheat;
+    color:darkgray;
+    background-color: white;
+    font-size: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
+
+/*css for left header/content*/
+.left-column-header{
+    position:relative;
+    height:40px;
+    width:100%;
+}
+.left-column-content{
+    position:relative;
+    height:336px;
+    width:100%;
+    overflow:hidden;
+}
+.live-icon{
+    width:40px;
+    height:40px;
+    background-position: -141px -75px;
+    display:inline-block;
+    vertical-align: middle;
+    margin-top:-15px;
+}
+.left-column-headername{
+ font-size:20px;
+ color:black;
+ height:40px;
+ line-height: 40px;
+ display: inline-block;
+}
+.online-info,.fire-entry{
+    display: inline-block;
+    color:darkgray;
+    font-size: 10px;
+}
+.online-info span{
+    color:#00a1d6;
+}
+.fire-entry:hover{
+    color:#00a1d6;
+}
+.fire{
+    display: inline-block;
+    background-position: -665px -1113px;
+    width:14px;
+    height:14px;
+}
+.online-info,.fire{
+    margin-left: 20px;
+}
+.left-column-more,.left-column-refresh{
+    position: relative;
+    float:right;
+    background-color: white;
+    border-radius: 4px;
+    border:1px solid gainsboro;
+    margin:10px 20px 10px 0;
+    color:black;
+    font-size: 12px;
+    height:20px;
+    line-height: 20px;
+    padding:0 2px;
+    cursor:pointer;
+}
+.left-column-more span{
+    display: inline-block;
+    height:20px;
+    line-height: 20px;
+    transition: all 0.2s ease;
+    margin-left:6px;
+    margin-right: 1px;
+}
+.arrow-right{
+    background-position: -478px -218px;
+    display:inline-block;
+    width:6px;
+    height:12px;
+    transition: all 0.2s ease;
+    margin-right: 6px;
+    margin-bottom:-2px;
+}
+.left-column-more:hover {
+    background-color: #99a2aa;
+}
+.left-column-more:hover span{
+    transform: translateX(-5px);
+}
+.left-column-more:hover .arrow-right{
+    transform: translateX(5px);
+}
+.left-column-refresh:hover {
+    background-color: #99a2aa;
+
+}
+.left-column-refresh:hover i{
+    transform: rotate(180deg);
+}
+.refresh{
+    background-position: -475px -89px;
+    display: inline-block;
+    width:12px;
+    height:13px;
+    margin:0 4px -2px 4px;
+    transition:all 0.3s ease;
+}
+/*test relative */
+.testrelative{
+    position:relative;
+    margin:0 auto;
+    background-color: black;
+}
+.test1{
+    display: inline-block;
+    position:relative;
+    width:100px;
+    height:20px;
+    background-color: #f25d82;
+}
+.test2{
+    display: inline-block;
+    position:relative;
+    width:300px;
+    height:20px;
+    background-color: #00a1d6;
+}
+
 
 
 
