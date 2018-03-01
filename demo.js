@@ -136,3 +136,30 @@ function clearAll(){
 //         document.getElementById('progressNumber').style.width = percentComplete + "%";
 //     }
 // };
+
+
+// function add(){
+//     var formData = new FormData($("#uploadForm")[0]);//用form 表单直接 构造formData 对象; 就不需要下面的append 方法来为表单进行赋值了。 
+//     $.ajax({ 
+//         async: false,//要求同步 不是不需看你的需求
+//         url : "app/gexingSet.htmls",  
+//         type : 'POST',  
+//         data : formData,  
+//         processData : false,  //必须false才会避开jQuery对 formdata 的默认处理   
+//         contentType : false,  //必须false才会自动加上正确的Content-Type 
+//         success : function(result) {  
+//                if(result==1){
+//                    forward=true;
+//                }else{
+                   
+//                    $(".myModal-click").trigger("click");
+//                    forward=false;
+//                } 
+//         },  
+//         error : function(result) {  
+//             $(".myModal-click").trigger("click");
+//                forward=false; 
+//         }  
+//     });  
+   
+// }
